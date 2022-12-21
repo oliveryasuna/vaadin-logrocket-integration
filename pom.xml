@@ -33,6 +33,7 @@
 
   <modules>
     <module>addon</module>
+    <module>demo</module>
   </modules>
 
   <properties>

@@ -20,7 +20,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
 
   <!--==================================================
@@ -33,19 +32,53 @@
     <version>1</version>
   </parent>
 
-  <groupId>org.vaadin.addons.oliveryasuna</groupId>
-  <artifactId>vaadin-logrocket-integration</artifactId>
+  <artifactId>responsive-app-layout-demo</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
 
+  <modules/>
+
   <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+
+    <vaadin.version>23.2.6</vaadin.version>
+    <spring.version>2.7.2</spring.version>
   </properties>
 
-  <dependencyManagement/>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-bom</artifactId>
+        <version>${vaadin.version}</version>
+
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring.version}</version>
+
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
+    <!--=========================
+    ==== Project
+    =========================-->
+
+    <dependency>
+      <groupId>org.vaadin.addons.oliveryasuna</groupId>
+      <artifactId>vaadin-logrocket-integration</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
     <!--=========================
     ==== Vaadin
     =========================-->
@@ -53,17 +86,78 @@
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-core</artifactId>
-      <version>14.9.3</version>
+    </dependency>
 
-      <scope>provided</scope>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.vaadin.addons.oliveryasuna</groupId>
+      <artifactId>flow-commons</artifactId>
+      <version>3.0.0</version>
+
+      <exclusions>
+        <exclusion>
+          <groupId>com.vaadin</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!--=========================
+    ==== Spring
+    =========================-->
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
     </dependency>
   </dependencies>
+
+  <!--==================================================
+  ==== Build
+  ==================================================-->
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-maven-plugin</artifactId>
+        <version>${vaadin.version}</version>
+
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-frontend</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting/>
 
   <!--==================================================
   ==== Details
   ==================================================-->
 
-  <name>Vaadin LogRocket Integration</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description/> <!-- TODO. -->
   <url>https://github.com/oliveryasuna/vaadin-logrocket-integration</url>
   <inceptionYear>2022</inceptionYear>
@@ -97,23 +191,29 @@
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/oliveryasuna/vaadin-responsive-app-layout/issues</url>
+    <url>https://github.com/oliveryasuna/vaadin-logrocket-integration/issues</url>
   </issueManagement>
   <ciManagement/>
 
   <mailingLists/>
 
   <scm>
-    <url>https://github.com/oliveryasuna/vaadin-responsive-app-layout</url>
-    <connection>scm:git:git://github.com/oliveryasuna/vaadin-responsive-app-layout.git</connection>
-    <developerConnection>scm:git:git://github.com/oliveryasuna/vaadin-responsive-app-layout.git</developerConnection>
+    <url>https://github.com/oliveryasuna/vaadin-logrocket-integration</url>
+    <connection>scm:git:git://github.com/oliveryasuna/vaadin-logrocket-integration.git</connection>
+    <developerConnection>scm:git:git://github.com/oliveryasuna/vaadin-logrocket-integration.git</developerConnection>
   </scm>
 
-  <repositories/>
+  <repositories>
+    <repository>
+      <id>vaadin-addons</id>
+
+      <url>https://maven.vaadin.com/vaadin-addons</url>
+    </repository>
+  </repositories>
   <pluginRepositories/>
 
   <distributionManagement/>
 
-  <profiles></profiles>
+  <profiles/>
 
 </project>
