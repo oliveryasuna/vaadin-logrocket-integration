@@ -58,7 +58,7 @@
   ==================================================-->
 
   <name>${project.groupId}:${project.artifactId}</name>
-  <description/> <!-- TODO. -->
+  <description>Parent for the Vaadin LogRocket Integration addon and related projects.</description>
   <url>https://github.com/oliveryasuna/vaadin-logrocket-integration</url>
   <inceptionYear>2022</inceptionYear>
   <licenses>
@@ -108,6 +108,105 @@
 
   <distributionManagement/>
 
-  <profiles/>
+  <profiles>
+    <profile>
+      <id>release-nexus</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>3.0.0-M3</version>
+
+            <executions>
+              <execution>
+                <id>require-properties</id>
+
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+
+                <configuration>
+                  <rules>
+                    <requireProperty>
+                      <property>project.name</property>
+                      <message>Missing project.name.</message>
+                    </requireProperty>
+                    <requireProperty>
+                      <property>project.description</property>
+                      <message>Missing project.description.</message>
+                    </requireProperty>
+                    <requireProperty>
+                      <property>project.url</property>
+                      <message>Missing project.url.</message>
+                    </requireProperty>
+                    <requireProperty>
+                      <property>project.licenses</property>
+                      <message>Missing project.licenses.</message>
+                    </requireProperty>
+                    <requireProperty>
+                      <property>project.developers</property>
+                      <message>Missing project.developers.</message>
+                    </requireProperty>
+                    <requireProperty>
+                      <property>project.scm</property>
+                      <message>Missing project.scm.</message>
+                    </requireProperty>
+                  </rules>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.7</version>
+
+            <extensions>true</extensions>
+
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+              <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.0.1</version>
+
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+
+                <phase>verify</phase>
+
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+
+      <distributionManagement>
+        <repository>
+          <id>ossrh</id>
+          <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+
+        <snapshotRepository>
+          <id>ossrh</id>
+
+          <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 
 </project>
