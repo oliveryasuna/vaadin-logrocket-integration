@@ -27,6 +27,7 @@ import elemental.json.Json;
 import elemental.json.JsonObject;
 
 import java.text.MessageFormat;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * LogRocket utility class.
@@ -40,7 +41,7 @@ public final class LogRocket {
   //--------------------------------------------------
 
   public static void init(final UI ui, final String appId) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.init($0)", appId);
+    ui.getPage().executeJs("window.LogRocket.init($0)", appId);
   }
 
   public static void init(final String appId) {
@@ -48,7 +49,7 @@ public final class LogRocket {
   }
 
   public static void init(final UI ui, final String appId, JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.init($0, $1)", appId, options);
+    ui.getPage().executeJs("window.LogRocket.init($0, $1)", appId, options);
   }
 
   public static void init(final String appId, JsonObject options) {
@@ -71,7 +72,7 @@ public final class LogRocket {
   }
 
   public static void log(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.log($0)", MessageFormat.format(pattern, arguments));
+    ui.getPage().executeJs("window.LogRocket.log($0)", MessageFormat.format(pattern, arguments));
   }
 
   public static void log(final String pattern, final Object... arguments) {
@@ -79,7 +80,7 @@ public final class LogRocket {
   }
 
   public static void info(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.info($0)", MessageFormat.format(pattern, arguments));
+    ui.getPage().executeJs("window.LogRocket.info($0)", MessageFormat.format(pattern, arguments));
   }
 
   public static void info(final String pattern, final Object... arguments) {
@@ -87,7 +88,7 @@ public final class LogRocket {
   }
 
   public static void warn(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.warn($0)", MessageFormat.format(pattern, arguments));
+    ui.getPage().executeJs("window.LogRocket.warn($0)", MessageFormat.format(pattern, arguments));
   }
 
   public static void warn(final String pattern, final Object... arguments) {
@@ -95,7 +96,7 @@ public final class LogRocket {
   }
 
   public static void debug(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.debug($0)", MessageFormat.format(pattern, arguments));
+    ui.getPage().executeJs("window.LogRocket.debug($0)", MessageFormat.format(pattern, arguments));
   }
 
   public static void debug(final String pattern, final Object... arguments) {
@@ -103,15 +104,20 @@ public final class LogRocket {
   }
 
   public static void error(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.error($0)", MessageFormat.format(pattern, arguments));
+    ui.getPage().executeJs("window.LogRocket.error($0)", MessageFormat.format(pattern, arguments));
   }
 
   public static void error(final String pattern, final Object... arguments) {
     error(UI.getCurrent(), pattern, arguments);
   }
 
+  public static CompletableFuture<String> version(final UI ui) {
+    return ui.getPage().executeJs("window.LogRocket.version")
+        .toCompletableFuture(String.class);
+  }
+
   public static void identify(final UI ui, final String uid, final JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.identify($0, $1)", uid, options);
+    ui.getPage().executeJs("window.LogRocket.identify($0, $1)", uid, options);
   }
 
   public static void identify(final String uid, final JsonObject options) {
@@ -119,7 +125,7 @@ public final class LogRocket {
   }
 
   public static void identify(final UI ui, final JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.identify($0)", options);
+    ui.getPage().executeJs("window.LogRocket.identify($0)", options);
   }
 
   public static void identify(final JsonObject options) {
