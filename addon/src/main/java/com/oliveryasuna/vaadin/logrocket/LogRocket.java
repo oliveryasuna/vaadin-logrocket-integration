@@ -18,10 +18,8 @@
 
 package com.oliveryasuna.vaadin.logrocket;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
-import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
-import com.oliveryasuna.vaadin.logrocket.util.JacksonUtils;
+import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
 import com.vaadin.flow.component.UI;
 import elemental.json.Json;
 import elemental.json.JsonObject;
@@ -57,14 +55,7 @@ public final class LogRocket {
   }
 
   public static void init(final UI ui, final String appId, final InitOptions options) {
-    final String rawJson;
-    try {
-      rawJson = JacksonUtils.JSON_MAPPER.writeValueAsString(options);
-    } catch(final JsonProcessingException e) {
-      throw new SerializationException(e);
-    }
-
-    init(ui, appId, Json.parse(rawJson));
+    init(ui, appId, SerializationUtils.toElementalObject(options));
   }
 
   public static void init(final String appId, final InitOptions options) {
@@ -114,6 +105,30 @@ public final class LogRocket {
   public static CompletableFuture<String> version(final UI ui) {
     return ui.getPage().executeJs("window.LogRocket.version")
         .toCompletableFuture(String.class);
+  }
+
+  public static void captureMessage(final UI ui, final String message) {
+    ui.getPage().executeJs("window.LogRocket.captureMessage($0)", message);
+  }
+
+  public static void captureMessage(final String message) {
+    captureMessage(UI.getCurrent(), message);
+  }
+
+  public static void captureMessage(final UI ui, final String message, final JsonObject options) {
+    ui.getPage().executeJs("window.LogRocket.captureMessage($0, $1)", message, options);
+  }
+
+  public static void captureMessage(final String message, final JsonObject options) {
+    captureMessage(UI.getCurrent(), message, options);
+  }
+
+  public static void captureMessage(final UI ui, final String message, final CaptureOptions options) {
+    captureMessage(ui, message, SerializationUtils.toElementalObject(options));
+  }
+
+  public static void captureMessage(final String message, final CaptureOptions options) {
+    captureMessage(UI.getCurrent(), message, options);
   }
 
   public static void identify(final UI ui, final String uid, final JsonObject options) {

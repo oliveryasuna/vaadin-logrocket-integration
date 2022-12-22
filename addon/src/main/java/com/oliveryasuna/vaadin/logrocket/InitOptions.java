@@ -37,6 +37,7 @@ import java.io.Serializable;
  * @author Oliver Yasuna
  * @since 1.1.0
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InitOptions implements Serializable {
 
   // Constructors

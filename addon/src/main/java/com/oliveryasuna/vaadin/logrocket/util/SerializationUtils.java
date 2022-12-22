@@ -18,17 +18,21 @@
 
 package com.oliveryasuna.vaadin.logrocket.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
+import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
+import elemental.json.Json;
+import elemental.json.JsonObject;
 
 /**
- * Jackson utilities.
+ * Serialization utilities.
  *
  * @author Oliver Yasuna
  * @since 1.0.0
  */
-public final class JacksonUtils {
+public final class SerializationUtils {
 
   // Static fields
   //--------------------------------------------------
@@ -37,10 +41,24 @@ public final class JacksonUtils {
 
   public static final JavaPropsMapper PROPERTIES_MAPPER = new JavaPropsMapper();
 
+  // Static methods
+  //--------------------------------------------------
+
+  public static JsonObject toElementalObject(final Object value) {
+    final String rawJson;
+    try {
+      rawJson = SerializationUtils.JSON_MAPPER.writeValueAsString(value);
+    } catch(final JsonProcessingException e) {
+      throw new SerializationException(e);
+    }
+
+    return Json.parse(rawJson);
+  }
+
   // Constructors
   //--------------------------------------------------
 
-  private JacksonUtils() {
+  private SerializationUtils() {
     super();
 
     throw new UnsupportedInstantiationException();
