@@ -21,7 +21,7 @@ package com.oliveryasuna.vaadin.logrocket.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
 import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
-import com.oliveryasuna.vaadin.logrocket.util.JacksonUtils;
+import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.apache.commons.text.lookup.StringLookupFactory;
@@ -58,7 +58,7 @@ public final class AddonConfigurationLoader {
 
       AddonConfiguration.updateInstance(addonConfiguration -> {
         try {
-          JacksonUtils.PROPERTIES_MAPPER.readerForUpdating(addonConfiguration).readValue(resolved);
+          SerializationUtils.PROPERTIES_MAPPER.readerForUpdating(addonConfiguration).readValue(resolved);
         } catch(final JsonProcessingException e) {
           throw new ConfigurationLoadException(e);
         }

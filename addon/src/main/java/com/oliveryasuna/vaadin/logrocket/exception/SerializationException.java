@@ -29,6 +29,10 @@ public class SerializationException extends RuntimeException {
   // Constructors
   //--------------------------------------------------
 
+  public SerializationException(final String message) {
+    super(message);
+  }
+
   public SerializationException(final Throwable cause) {
     super(cause);
   }
