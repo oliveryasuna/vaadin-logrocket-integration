@@ -145,7 +145,7 @@
   ==================================================-->
 
   <name>${project.groupId}:${project.artifactId}</name>
-  <description/> <!-- TODO. -->
+  <description>Demo for the Vaadin LogRocket Integration addon.</description>
   <url>https://github.com/oliveryasuna/vaadin-logrocket-integration</url>
   <inceptionYear>2022</inceptionYear>
   <licenses>
