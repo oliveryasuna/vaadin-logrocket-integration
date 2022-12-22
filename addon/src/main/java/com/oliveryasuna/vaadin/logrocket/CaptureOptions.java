@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
-@JsonSerialize(using = Serializer.class)
+@JsonSerialize(using = CaptureOptionsSerializer.class)
 public class CaptureOptions implements Serializable {
 
   // Constructors
@@ -72,17 +72,17 @@ public class CaptureOptions implements Serializable {
 // Private classes
 //--------------------------------------------------
 
-class Serializer extends StdSerializer<CaptureOptions> {
+final class CaptureOptionsSerializer extends StdSerializer<CaptureOptions> {
 
   // Constructors
   //--------------------------------------------------
 
-  public Serializer() {
+  public CaptureOptionsSerializer() {
     super(CaptureOptions.class);
   }
 
   @Override
-  public void serialize(final CaptureOptions value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
+  public final void serialize(final CaptureOptions value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
     gen.writeStartObject();
 
     if(value.getTags() != null) writeMapField("tags", value.getTags(), gen);
@@ -115,7 +115,7 @@ class Serializer extends StdSerializer<CaptureOptions> {
       } else if(val instanceof Boolean) {
         gen.writeBooleanField(key, (Boolean)val);
       } else {
-        throw new SerializationException("Unsupported type: " + val.getClass());
+        throw new SerializationException("Unsupported type: " + (val != null ? val.getClass() : "null"));
       }
     }
   }

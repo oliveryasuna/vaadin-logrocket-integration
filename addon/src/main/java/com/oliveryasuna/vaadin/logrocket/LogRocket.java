@@ -107,30 +107,6 @@ public final class LogRocket {
         .toCompletableFuture(String.class);
   }
 
-  public static void captureMessage(final UI ui, final String message) {
-    ui.getPage().executeJs("window.LogRocket.captureMessage($0)", message);
-  }
-
-  public static void captureMessage(final String message) {
-    captureMessage(UI.getCurrent(), message);
-  }
-
-  public static void captureMessage(final UI ui, final String message, final JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket.captureMessage($0, $1)", message, options);
-  }
-
-  public static void captureMessage(final String message, final JsonObject options) {
-    captureMessage(UI.getCurrent(), message, options);
-  }
-
-  public static void captureMessage(final UI ui, final String message, final CaptureOptions options) {
-    captureMessage(ui, message, SerializationUtils.toElementalObject(options));
-  }
-
-  public static void captureMessage(final String message, final CaptureOptions options) {
-    captureMessage(UI.getCurrent(), message, options);
-  }
-
   public static void identify(final UI ui, final String uid, final JsonObject options) {
     ui.getPage().executeJs("window.LogRocket.identify($0, $1)", uid, options);
   }
@@ -169,6 +145,54 @@ public final class LogRocket {
 
   public static void identify(final String name, final String email) {
     identify(UI.getCurrent(), name, email);
+  }
+
+  public static void captureMessage(final UI ui, final String message) {
+    ui.getPage().executeJs("window.LogRocket.captureMessage($0)", message);
+  }
+
+  public static void captureMessage(final String message) {
+    captureMessage(UI.getCurrent(), message);
+  }
+
+  public static void captureMessage(final UI ui, final String message, final JsonObject options) {
+    ui.getPage().executeJs("window.LogRocket.captureMessage($0, $1)", message, options);
+  }
+
+  public static void captureMessage(final String message, final JsonObject options) {
+    captureMessage(UI.getCurrent(), message, options);
+  }
+
+  public static void captureMessage(final UI ui, final String message, final CaptureOptions options) {
+    captureMessage(ui, message, SerializationUtils.toElementalObject(options));
+  }
+
+  public static void captureMessage(final String message, final CaptureOptions options) {
+    captureMessage(UI.getCurrent(), message, options);
+  }
+
+  public static void track(final UI ui, final String eventName) {
+    ui.getPage().executeJs("window.LogRocket.track($0)", eventName);
+  }
+
+  public static void track(final String eventName) {
+    track(UI.getCurrent(), eventName);
+  }
+
+  public static void track(final UI ui, final String eventName, final JsonObject properties) {
+    ui.getPage().executeJs("window.LogRocket.track($0, $1)", eventName, properties);
+  }
+
+  public static void track(final String eventName, final JsonObject properties) {
+    track(UI.getCurrent(), eventName, properties);
+  }
+
+  public static void track(final UI ui, final String eventName, final TrackEventProperties properties) {
+    track(ui, eventName, SerializationUtils.toElementalObject(properties));
+  }
+
+  public static void track(final String eventName, final TrackEventProperties properties) {
+    track(UI.getCurrent(), eventName, properties);
   }
 
   // Constructors

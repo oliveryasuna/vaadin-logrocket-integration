@@ -31,8 +31,6 @@ import java.io.Serializable;
 
 /**
  * Counterpart to the LogRocket JavaScript API's {@code IOptions}.
- * <p>
- * Based on v1.0 API.
  *
  * @author Oliver Yasuna
  * @since 1.1.0
@@ -144,7 +142,7 @@ public class InitOptions implements Serializable {
   // Nested
   //--------------------------------------------------
 
-  @JsonSerialize(using = ConsoleSerializer.class)
+  @JsonSerialize(using = InitOptionsConsoleSerializer.class)
   public static class Console implements Serializable {
 
     // Constructors
@@ -375,12 +373,12 @@ public class InitOptions implements Serializable {
 // Private classes
 //--------------------------------------------------
 
-class ConsoleSerializer extends StdSerializer<InitOptions.Console> {
+final class InitOptionsConsoleSerializer extends StdSerializer<InitOptions.Console> {
 
   // Constructors
   //--------------------------------------------------
 
-  public ConsoleSerializer() {
+  public InitOptionsConsoleSerializer() {
     super(InitOptions.Console.class);
   }
 
@@ -388,7 +386,7 @@ class ConsoleSerializer extends StdSerializer<InitOptions.Console> {
   //--------------------------------------------------
 
   @Override
-  public void serialize(final InitOptions.Console value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
+  public final void serialize(final InitOptions.Console value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
     gen.writeStartObject();
 
     if(BooleanUtils.isTrue(value.getIsEnabled())) {
