@@ -18,6 +18,7 @@
 
 package com.oliveryasuna.vaadin.logrocket.util;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
 
@@ -31,6 +32,8 @@ public final class JacksonUtils {
 
   // Static fields
   //--------------------------------------------------
+
+  public static final JsonMapper JSON_MAPPER = new JsonMapper();
 
   public static final JavaPropsMapper PROPERTIES_MAPPER = new JavaPropsMapper();
 

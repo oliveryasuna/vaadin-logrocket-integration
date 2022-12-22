@@ -16,53 +16,21 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket.bootstrap;
-
-import com.oliveryasuna.vaadin.logrocket.config.AddonConfigurationLoader;
-import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
-import com.vaadin.flow.server.ServiceInitEvent;
-import com.vaadin.flow.server.VaadinServiceInitListener;
-
-import java.io.IOException;
+package com.oliveryasuna.vaadin.logrocket.exception;
 
 /**
- * Vaadin service init listener for the addon.
+ * Exception thrown serializing an object.
  *
  * @author Oliver Yasuna
  * @since 1.0.0
  */
-public final class AddonServiceInitListener implements VaadinServiceInitListener {
-
-  // Static fields
-  //--------------------------------------------------
-
+public class SerializationException extends RuntimeException {
 
   // Constructors
   //--------------------------------------------------
 
-  public AddonServiceInitListener() {
-    super();
-  }
-
-  // Methods
-  //--------------------------------------------------
-
-  private void initConfig() {
-    try {
-      AddonConfigurationLoader.load();
-    } catch(final IOException e) {
-      throw new ConfigurationLoadException(e);
-    }
-  }
-
-  @Override
-  public final void serviceInit(final ServiceInitEvent event) {
-    initConfig();
-
-    final LogRocketBootstrapper logRocketBootstrapper = new LogRocketBootstrapper();
-
-    event.addIndexHtmlRequestListener(logRocketBootstrapper);
-    event.getSource().addUIInitListener(logRocketBootstrapper);
+  public SerializationException(final Throwable cause) {
+    super(cause);
   }
 
 }

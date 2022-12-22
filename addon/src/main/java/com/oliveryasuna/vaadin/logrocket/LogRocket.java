@@ -18,7 +18,10 @@
 
 package com.oliveryasuna.vaadin.logrocket;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
+import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
+import com.oliveryasuna.vaadin.logrocket.util.JacksonUtils;
 import com.vaadin.flow.component.UI;
 import elemental.json.Json;
 import elemental.json.JsonObject;
@@ -40,6 +43,29 @@ public final class LogRocket {
 
   public static void init(final String appId) {
     init(UI.getCurrent(), appId);
+  }
+
+  public static void init(final UI ui, final String appId, JsonObject options) {
+    ui.getPage().executeJs("window.LogRocket && window.LogRocket.init($0, $1)", appId, options);
+  }
+
+  public static void init(final String appId, JsonObject options) {
+    init(UI.getCurrent(), appId, options);
+  }
+
+  public static void init(final UI ui, final String appId, final InitOptions options) {
+    final String rawJson;
+    try {
+      rawJson = JacksonUtils.JSON_MAPPER.writeValueAsString(options);
+    } catch(final JsonProcessingException e) {
+      throw new SerializationException(e);
+    }
+
+    init(ui, appId, Json.parse(rawJson));
+  }
+
+  public static void init(final String appId, final InitOptions options) {
+    init(UI.getCurrent(), appId, options);
   }
 
   public static void identify(final UI ui, final String uid, final JsonObject options) {

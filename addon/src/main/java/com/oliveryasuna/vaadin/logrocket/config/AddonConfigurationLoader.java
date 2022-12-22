@@ -20,6 +20,7 @@ package com.oliveryasuna.vaadin.logrocket.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
+import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
 import com.oliveryasuna.vaadin.logrocket.util.JacksonUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringSubstitutor;
