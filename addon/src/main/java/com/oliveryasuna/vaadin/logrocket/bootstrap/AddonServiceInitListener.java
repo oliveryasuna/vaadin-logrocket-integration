@@ -16,7 +16,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket;
+package com.oliveryasuna.vaadin.logrocket.bootstrap;
 
 import com.oliveryasuna.vaadin.logrocket.config.AddonConfigurationLoader;
 import com.oliveryasuna.vaadin.logrocket.config.ConfigurationLoadException;
