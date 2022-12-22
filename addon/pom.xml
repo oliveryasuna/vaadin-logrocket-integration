@@ -95,7 +95,7 @@
   ==== Details
   ==================================================-->
 
-  <name>Vaadin LogRocket Integration</name>
+  <name>LogRocket Integration</name>
   <description>Integrates LogRocket with your Vaadin application.</description>
   <url>https://github.com/oliveryasuna/vaadin-logrocket-integration</url>
   <inceptionYear>2022</inceptionYear>
