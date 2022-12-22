@@ -96,7 +96,7 @@
   ==================================================-->
 
   <name>Vaadin LogRocket Integration</name>
-  <description/> <!-- TODO. -->
+  <description>Integrates LogRocket with your Vaadin application.</description>
   <url>https://github.com/oliveryasuna/vaadin-logrocket-integration</url>
   <inceptionYear>2022</inceptionYear>
   <licenses>
@@ -146,6 +146,97 @@
 
   <distributionManagement/>
 
-  <profiles></profiles>
+  <profiles>
+    <profile>
+      <id>vaadin-directory</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.0</version>
+
+            <configuration>
+              <archive>
+                <index>true</index>
+
+                <manifest>
+                  <addClasspath>false</addClasspath>
+                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                </manifest>
+                <manifestEntries>
+                  <Vaadin-Package-Version>1</Vaadin-Package-Version>
+                </manifestEntries>
+              </archive>
+
+              <excludes>
+                <exclude>META-INF/VAADIN/config/flow-build.info.json</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.2.1</version>
+
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+
+                <phase>verify</phase>
+
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.3.0</version>
+
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+
+                <phase>verify</phase>
+
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.3.0</version>
+
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>${project.basedir}/src/assembly/assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+
+            <executions>
+              <execution>
+                <phase>install</phase>
+
+                <goals>
+                  <goal>single</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
