@@ -16,62 +16,49 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket.config;
+package com.oliveryasuna.vaadin.logrocket.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
-import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
-import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.text.StringSubstitutor;
-import org.apache.commons.text.lookup.StringLookupFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
+import elemental.json.Json;
+import elemental.json.JsonObject;
 
 /**
- * Helper methods for loading configuration files.
+ * Serialization utilities.
  *
  * @author Oliver Yasuna
  * @since 1.0.0
  */
-public final class AddonConfigurationLoader {
+public final class SerializationUtils {
 
   // Static fields
   //--------------------------------------------------
 
-  private static final String CONFIGURATION_FILENAME = "vaadin-logrocket.properties";
+  public static final JsonMapper JSON_MAPPER = new JsonMapper();
 
-  private static final StringSubstitutor ENVIRONMENT_VARIABLE_SUBSTITUTOR
-      = new StringSubstitutor(StringLookupFactory.INSTANCE.environmentVariableStringLookup());
+  public static final JavaPropsMapper PROPERTIES_MAPPER = new JavaPropsMapper();
 
   // Static methods
   //--------------------------------------------------
 
-  public static void load() throws IOException {
-    try(final InputStream is = AddonConfigurationLoader.class.getResourceAsStream("/" + CONFIGURATION_FILENAME)) {
-      if(is == null) return;
-
-      final String raw = IOUtils.toString(is, StandardCharsets.UTF_8);
-      final String resolved = ENVIRONMENT_VARIABLE_SUBSTITUTOR.replace(raw);
-
-      AddonConfiguration.updateInstance(addonConfiguration -> {
-        try {
-          SerializationUtils.PROPERTIES_MAPPER.readerForUpdating(addonConfiguration).readValue(resolved);
-        } catch(final JsonProcessingException e) {
-          throw new ConfigurationLoadException(e);
-        }
-      });
-    } finally {
-      System.out.println("Loaded configuration: " + AddonConfiguration.getInstance());
+  public static JsonObject toElementalObject(final Object value) {
+    final String rawJson;
+    try {
+      rawJson = SerializationUtils.JSON_MAPPER.writeValueAsString(value);
+    } catch(final JsonProcessingException e) {
+      throw new SerializationException(e);
     }
+
+    return Json.parse(rawJson);
   }
 
   // Constructors
   //--------------------------------------------------
 
-  private AddonConfigurationLoader() {
+  private SerializationUtils() {
     super();
 
     throw new UnsupportedInstantiationException();

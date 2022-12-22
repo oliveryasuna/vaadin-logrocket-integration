@@ -16,31 +16,21 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket.util;
-
-import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
-import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
+package com.oliveryasuna.vaadin.logrocket.exception;
 
 /**
- * Jackson utilities.
+ * Exception thrown when the configuration file cannot be loaded.
  *
  * @author Oliver Yasuna
  * @since 1.0.0
  */
-public final class JacksonUtils {
-
-  // Static fields
-  //--------------------------------------------------
-
-  public static final JavaPropsMapper PROPERTIES_MAPPER = new JavaPropsMapper();
+public class ConfigurationLoadException extends RuntimeException {
 
   // Constructors
   //--------------------------------------------------
 
-  private JacksonUtils() {
-    super();
-
-    throw new UnsupportedInstantiationException();
+  public ConfigurationLoadException(final Throwable cause) {
+    super(cause);
   }
 
 }

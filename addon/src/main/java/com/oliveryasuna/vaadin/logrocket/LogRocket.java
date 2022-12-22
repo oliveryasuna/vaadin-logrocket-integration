@@ -19,9 +19,13 @@
 package com.oliveryasuna.vaadin.logrocket;
 
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
+import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
 import com.vaadin.flow.component.UI;
 import elemental.json.Json;
 import elemental.json.JsonObject;
+
+import java.text.MessageFormat;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * LogRocket utility class.
@@ -35,15 +39,76 @@ public final class LogRocket {
   //--------------------------------------------------
 
   public static void init(final UI ui, final String appId) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.init($0)", appId);
+    ui.getPage().executeJs("window.LogRocket.init($0)", appId);
   }
 
   public static void init(final String appId) {
     init(UI.getCurrent(), appId);
   }
 
+  public static void init(final UI ui, final String appId, JsonObject options) {
+    ui.getPage().executeJs("window.LogRocket.init($0, $1)", appId, options);
+  }
+
+  public static void init(final String appId, JsonObject options) {
+    init(UI.getCurrent(), appId, options);
+  }
+
+  public static void init(final UI ui, final String appId, final InitOptions options) {
+    init(ui, appId, SerializationUtils.toElementalObject(options));
+  }
+
+  public static void init(final String appId, final InitOptions options) {
+    init(UI.getCurrent(), appId, options);
+  }
+
+  public static void log(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket.log($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void log(final String pattern, final Object... arguments) {
+    log(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static void info(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket.info($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void info(final String pattern, final Object... arguments) {
+    info(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static void warn(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket.warn($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void warn(final String pattern, final Object... arguments) {
+    warn(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static void debug(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket.debug($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void debug(final String pattern, final Object... arguments) {
+    debug(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static void error(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket.error($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void error(final String pattern, final Object... arguments) {
+    error(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static CompletableFuture<String> version(final UI ui) {
+    return ui.getPage().executeJs("window.LogRocket.version")
+        .toCompletableFuture(String.class);
+  }
+
   public static void identify(final UI ui, final String uid, final JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.identify($0, $1)", uid, options);
+    ui.getPage().executeJs("window.LogRocket.identify($0, $1)", uid, options);
   }
 
   public static void identify(final String uid, final JsonObject options) {
@@ -51,7 +116,7 @@ public final class LogRocket {
   }
 
   public static void identify(final UI ui, final JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket && window.LogRocket.identify($0)", options);
+    ui.getPage().executeJs("window.LogRocket.identify($0)", options);
   }
 
   public static void identify(final JsonObject options) {
@@ -80,6 +145,54 @@ public final class LogRocket {
 
   public static void identify(final String name, final String email) {
     identify(UI.getCurrent(), name, email);
+  }
+
+  public static void captureMessage(final UI ui, final String message) {
+    ui.getPage().executeJs("window.LogRocket.captureMessage($0)", message);
+  }
+
+  public static void captureMessage(final String message) {
+    captureMessage(UI.getCurrent(), message);
+  }
+
+  public static void captureMessage(final UI ui, final String message, final JsonObject options) {
+    ui.getPage().executeJs("window.LogRocket.captureMessage($0, $1)", message, options);
+  }
+
+  public static void captureMessage(final String message, final JsonObject options) {
+    captureMessage(UI.getCurrent(), message, options);
+  }
+
+  public static void captureMessage(final UI ui, final String message, final CaptureOptions options) {
+    captureMessage(ui, message, SerializationUtils.toElementalObject(options));
+  }
+
+  public static void captureMessage(final String message, final CaptureOptions options) {
+    captureMessage(UI.getCurrent(), message, options);
+  }
+
+  public static void track(final UI ui, final String eventName) {
+    ui.getPage().executeJs("window.LogRocket.track($0)", eventName);
+  }
+
+  public static void track(final String eventName) {
+    track(UI.getCurrent(), eventName);
+  }
+
+  public static void track(final UI ui, final String eventName, final JsonObject properties) {
+    ui.getPage().executeJs("window.LogRocket.track($0, $1)", eventName, properties);
+  }
+
+  public static void track(final String eventName, final JsonObject properties) {
+    track(UI.getCurrent(), eventName, properties);
+  }
+
+  public static void track(final UI ui, final String eventName, final TrackEventProperties properties) {
+    track(ui, eventName, SerializationUtils.toElementalObject(properties));
+  }
+
+  public static void track(final String eventName, final TrackEventProperties properties) {
+    track(UI.getCurrent(), eventName, properties);
   }
 
   // Constructors

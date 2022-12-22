@@ -19,7 +19,7 @@
 package com.oliveryasuna.vaadin.logrocket.bootstrap;
 
 import com.oliveryasuna.vaadin.logrocket.config.AddonConfigurationLoader;
-import com.oliveryasuna.vaadin.logrocket.config.ConfigurationLoadException;
+import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
 

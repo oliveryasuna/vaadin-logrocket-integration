@@ -16,20 +16,24 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket.config;
+package com.oliveryasuna.vaadin.logrocket.exception;
 
 /**
- * Exception thrown when the configuration file cannot be loaded.
+ * Exception thrown serializing an object.
  *
  * @author Oliver Yasuna
  * @since 1.0.0
  */
-public class ConfigurationLoadException extends RuntimeException {
+public class SerializationException extends RuntimeException {
 
   // Constructors
   //--------------------------------------------------
 
-  public ConfigurationLoadException(final Throwable cause) {
+  public SerializationException(final String message) {
+    super(message);
+  }
+
+  public SerializationException(final Throwable cause) {
     super(cause);
   }
 
