@@ -42,7 +42,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
 
-    <vaadin.version>23.2.6</vaadin.version>
+    <vaadin.version>23.2.8</vaadin.version>
     <spring.version>2.7.2</spring.version>
   </properties>
 
@@ -91,19 +91,6 @@
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-spring-boot-starter</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.vaadin.addons.oliveryasuna</groupId>
-      <artifactId>flow-commons</artifactId>
-      <version>3.0.0</version>
-
-      <exclusions>
-        <exclusion>
-          <groupId>com.vaadin</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!--=========================

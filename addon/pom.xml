@@ -53,9 +53,41 @@
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-core</artifactId>
-      <version>14.9.3</version>
+      <version>23.2.8</version>
 
       <scope>provided</scope>
+    </dependency>
+
+    <!--=========================
+    ==== Serialization
+    =========================-->
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-properties</artifactId>
+      <version>2.14.0</version>
+    </dependency>
+
+    <!--=========================
+    ==== Miscellaneous
+    =========================-->
+
+    <dependency>
+      <groupId>com.oliveryasuna</groupId>
+      <artifactId>commons-language</artifactId>
+      <version>5.4.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>1.10.0</version>
     </dependency>
   </dependencies>
 

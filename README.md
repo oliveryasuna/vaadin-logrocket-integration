@@ -1,10 +1,33 @@
-# LogRocket Flow
+# vaadin-logrocket-integration
 
-LogRocket Flow seemlessly integrates LogRocket into Vaadin Flow.
+Integrates LogRocket with your Vaadin application.
 
 ## Usage
 
-[//]: # (TODO: Add instructions for usage.)
+1. Include the dependency in your project.
+
+```xml
+<dependency>
+  <groupId>org.vaadin.addons.oliveryasuna</groupId>
+  <artifactId>vaadin-logrocket-integration</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+2. Configure the addon.
+
+You can configure the addon with a properties file or environment variables.
+
+Here's an example properties file:
+```properties
+logrocket.appId = LOGROCKET_ID
+```
+It goes at `src/main/resources/vaadin-logrocket.properties`.
+
+You can also configure the addon with environment variables:
+- `LOGROCKET_APP_ID`
+
+[//]: # (TODO: Finish.)
 
 ## License
 
