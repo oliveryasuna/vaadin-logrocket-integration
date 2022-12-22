@@ -18,11 +18,11 @@
 
 package com.oliveryasuna.vaadin.logrocket.config;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Consumer;
 
 /**
  * Addon configuration.
@@ -35,7 +35,7 @@ public class AddonConfiguration implements Serializable {
   // Static fields
   //--------------------------------------------------
 
-  private static AddonConfiguration INSTANCE;
+  private static final AddonConfiguration INSTANCE = new AddonConfiguration(true, new LogRocketConfiguration(System.getenv("LOGROCKET_APP_ID")));
 
   private static final ReentrantLock INSTANCE_LOCK = new ReentrantLock();
 
@@ -52,10 +52,10 @@ public class AddonConfiguration implements Serializable {
     }
   }
 
-  public static void setInstance(final AddonConfiguration instance) {
+  public static void updateInstance(final Consumer<AddonConfiguration> updateFunction) {
     INSTANCE_LOCK.lock();
 
-    INSTANCE = instance;
+    updateFunction.accept(INSTANCE);
 
     INSTANCE_LOCK.unlock();
   }
@@ -63,23 +63,25 @@ public class AddonConfiguration implements Serializable {
   // Constructors
   //--------------------------------------------------
 
-  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public AddonConfiguration(
-      @JsonProperty(value = "autoInit") final boolean autoInit,
-      @JsonProperty(value = "logrocket", required = true) final LogRocketConfiguration logRocket
-  ) {
+  public AddonConfiguration() {
     super();
+  }
 
-    this.autoInit = autoInit;
-    this.logRocket = logRocket;
+  protected AddonConfiguration(final boolean autoInit, final LogRocketConfiguration logRocket) {
+    this();
+
+    setAutoInit(autoInit);
+    setLogRocket(logRocket);
   }
 
   // Fields
   //--------------------------------------------------
 
-  private final boolean autoInit;
+  @JsonProperty(value = "autoInit")
+  private boolean autoInit;
 
-  private final LogRocketConfiguration logRocket;
+  @JsonProperty(value = "logrocket", required = true)
+  private LogRocketConfiguration logRocket;
 
   // Getters/setters
   //--------------------------------------------------
@@ -88,8 +90,16 @@ public class AddonConfiguration implements Serializable {
     return autoInit;
   }
 
+  public void setAutoInit(final boolean autoInit) {
+    this.autoInit = autoInit;
+  }
+
   public LogRocketConfiguration getLogRocket() {
     return logRocket;
+  }
+
+  public void setLogRocket(final LogRocketConfiguration logRocket) {
+    this.logRocket = logRocket;
   }
 
 }

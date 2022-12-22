@@ -18,7 +18,6 @@
 
 package com.oliveryasuna.vaadin.logrocket.config;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -41,18 +40,20 @@ public class LogRocketConfiguration implements Serializable {
   // Constructors
   //--------------------------------------------------
 
-  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public LogRocketConfiguration(
-      @JsonProperty(value = "appId", required = true) final String appId
-  ) {
+  public LogRocketConfiguration() {
     super();
+  }
 
-    this.appId = appId;
+  protected LogRocketConfiguration(final String appId) {
+    this();
+
+    setAppId(appId);
   }
 
   // Fields
   //--------------------------------------------------
 
+  @JsonProperty(value = "appId", required = true)
   private String appId;
 
   // Getters/setters
@@ -60,6 +61,10 @@ public class LogRocketConfiguration implements Serializable {
 
   public String getAppId() {
     return appId;
+  }
+
+  public void setAppId(final String appId) {
+    this.appId = appId;
   }
 
 }

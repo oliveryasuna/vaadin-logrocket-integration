@@ -4,7 +4,7 @@ Integrates LogRocket with your Vaadin application.
 
 ## Usage
 
-1. Include the dependency in your project.
+1. **Include the dependency in your project.**
 
 ```xml
 <dependency>
@@ -14,24 +14,38 @@ Integrates LogRocket with your Vaadin application.
 </dependency>
 ```
 
-2. Configure the addon.
+2. **Set your LogRocket app ID.**
 
-You can configure the addon with a properties file or environment variables.
+Set the `LOGROCKET_APP_ID` environment variable to your LogRocket app ID.
 
-Here's an example properties file:
-```properties
-logrocket.appId = LOGROCKET_ID
+_Alternatively, you can set it directly in the configuration.
+Read more [here](#configuration)._
+
+3. **Identify your users.**
+
+Use one of the `identify` methods in the class `LogRocket` to identify your users.
+
+For example:
+```java
+public void onAuthenticate(final User user) {
+  LogRocket.identify(user.getId(), user.getName(), user.getEmail());
+}
 ```
-It goes at `src/main/resources/vaadin-logrocket.properties`.
 
-You can also configure the addon with environment variables:
-- `LOGROCKET_APP_ID`
+### Configuration
 
-[//]: # (TODO: Finish.)
+Create a file name `vaadin-logrocket.properties` in `src/main/resources`.
+
+| Property          | Description                                     | Default               |
+|-------------------|-------------------------------------------------|-----------------------|
+| `autoInit`        | Automatically initialize LogRocket for new UIs. | `true`                |
+| `logrocket.appId` | LogRocket app ID.                               | `${LOGROCKET_APP_ID}` |
 
 ## License
 
-This code is under the [BSD 3-Clause](LICENSE.txt).
+This repository and its contents are licensed by [BSD 3-Clause](LICENSE.txt).
+
+In other words, feel free to use this in your projects, but please give credits to its author(s).
 
 ## Sponsoring
 

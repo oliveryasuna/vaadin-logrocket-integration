@@ -18,7 +18,6 @@
 
 package com.oliveryasuna.vaadin.logrocket;
 
-import com.oliveryasuna.vaadin.logrocket.config.AddonConfiguration;
 import com.oliveryasuna.vaadin.logrocket.config.AddonConfigurationLoader;
 import com.oliveryasuna.vaadin.logrocket.config.ConfigurationLoadException;
 import com.vaadin.flow.server.ServiceInitEvent;
@@ -49,15 +48,11 @@ public final class AddonServiceInitListener implements VaadinServiceInitListener
   //--------------------------------------------------
 
   private void initConfig() {
-    final AddonConfiguration config;
-
     try {
-      config = AddonConfigurationLoader.load();
+      AddonConfigurationLoader.load();
     } catch(final IOException e) {
       throw new ConfigurationLoadException(e);
     }
-
-    AddonConfiguration.setInstance(config);
   }
 
   @Override

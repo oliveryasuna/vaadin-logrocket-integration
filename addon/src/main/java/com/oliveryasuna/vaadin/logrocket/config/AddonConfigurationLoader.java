@@ -18,6 +18,7 @@
 
 package com.oliveryasuna.vaadin.logrocket.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
 import com.oliveryasuna.vaadin.logrocket.util.JacksonUtils;
 import org.apache.commons.io.IOUtils;
@@ -47,12 +48,22 @@ public final class AddonConfigurationLoader {
   // Static methods
   //--------------------------------------------------
 
-  public static AddonConfiguration load() throws IOException {
+  public static void load() throws IOException {
     try(final InputStream is = AddonConfigurationLoader.class.getResourceAsStream("/" + CONFIGURATION_FILENAME)) {
+      if(is == null) return;
+
       final String raw = IOUtils.toString(is, StandardCharsets.UTF_8);
       final String resolved = ENVIRONMENT_VARIABLE_SUBSTITUTOR.replace(raw);
 
-      return JacksonUtils.PROPERTIES_MAPPER.readValue(resolved, AddonConfiguration.class);
+      AddonConfiguration.updateInstance(addonConfiguration -> {
+        try {
+          JacksonUtils.PROPERTIES_MAPPER.readerForUpdating(addonConfiguration).readValue(resolved);
+        } catch(final JsonProcessingException e) {
+          throw new ConfigurationLoadException(e);
+        }
+      });
+    } finally {
+      System.out.println("Loaded configuration: " + AddonConfiguration.getInstance());
     }
   }
 
