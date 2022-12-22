@@ -26,6 +26,8 @@ import com.vaadin.flow.component.UI;
 import elemental.json.Json;
 import elemental.json.JsonObject;
 
+import java.text.MessageFormat;
+
 /**
  * LogRocket utility class.
  *
@@ -66,6 +68,46 @@ public final class LogRocket {
 
   public static void init(final String appId, final InitOptions options) {
     init(UI.getCurrent(), appId, options);
+  }
+
+  public static void log(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket && window.LogRocket.log($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void log(final String pattern, final Object... arguments) {
+    log(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static void info(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket && window.LogRocket.info($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void info(final String pattern, final Object... arguments) {
+    info(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static void warn(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket && window.LogRocket.warn($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void warn(final String pattern, final Object... arguments) {
+    warn(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static void debug(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket && window.LogRocket.debug($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void debug(final String pattern, final Object... arguments) {
+    debug(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static void error(final UI ui, final String pattern, final Object... arguments) {
+    ui.getPage().executeJs("window.LogRocket && window.LogRocket.error($0)", MessageFormat.format(pattern, arguments));
+  }
+
+  public static void error(final String pattern, final Object... arguments) {
+    error(UI.getCurrent(), pattern, arguments);
   }
 
   public static void identify(final UI ui, final String uid, final JsonObject options) {
