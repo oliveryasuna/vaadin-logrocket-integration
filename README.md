@@ -1,5 +1,8 @@
 # vaadin-logrocket-integration
 
+[![](https://img.shields.io/vaadin-directory/version/logrocket-integration)](https://vaadin.com/directory/component/logrocket-integration)
+[![](https://img.shields.io/vaadin-directory/star/logrocket-integration)](https://vaadin.com/directory/component/logrocket-integration)
+
 Integrates LogRocket with your Vaadin application.
 
 ## Usage
