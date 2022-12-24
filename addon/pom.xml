@@ -129,16 +129,16 @@
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/oliveryasuna/vaadin-responsive-app-layout/issues</url>
+    <url>https://github.com/oliveryasuna/vaadin-logrocket-integration/issues</url>
   </issueManagement>
   <ciManagement/>
 
   <mailingLists/>
 
   <scm>
-    <url>https://github.com/oliveryasuna/vaadin-responsive-app-layout</url>
-    <connection>scm:git:git://github.com/oliveryasuna/vaadin-responsive-app-layout.git</connection>
-    <developerConnection>scm:git:git://github.com/oliveryasuna/vaadin-responsive-app-layout.git</developerConnection>
+    <url>https://github.com/oliveryasuna/vaadin-logrocket-integration</url>
+    <connection>scm:git:git://github.com/oliveryasuna/vaadin-logrocket-integration.git</connection>
+    <developerConnection>scm:git:git://github.com/oliveryasuna/vaadin-logrocket-integration.git</developerConnection>
   </scm>
 
   <repositories/>

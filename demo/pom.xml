@@ -32,7 +32,7 @@
     <version>1</version>
   </parent>
 
-  <artifactId>responsive-app-layout-demo</artifactId>
+  <artifactId>vaadin-logrocket-integration-demo</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
 
