@@ -19,8 +19,13 @@
 package com.oliveryasuna.vaadin.logrocket;
 
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
+import com.oliveryasuna.vaadin.logrocket.dom.CaptureOptions;
+import com.oliveryasuna.vaadin.logrocket.dom.Error;
+import com.oliveryasuna.vaadin.logrocket.dom.InitOptions;
+import com.oliveryasuna.vaadin.logrocket.dom.TrackEventProperties;
 import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.page.PendingJavaScriptResult;
 import elemental.json.Json;
 import elemental.json.JsonObject;
 
@@ -38,68 +43,140 @@ public final class LogRocket {
   // Static methods
   //--------------------------------------------------
 
-  public static void init(final UI ui, final String appId) {
-    ui.getPage().executeJs("window.LogRocket.init($0)", appId);
+  public static PendingJavaScriptResult init(final UI ui, final String appId) {
+    return ui.getPage().executeJs("window.LogRocket.init($0)", appId);
   }
 
-  public static void init(final String appId) {
-    init(UI.getCurrent(), appId);
+  public static PendingJavaScriptResult init(final String appId) {
+    return init(UI.getCurrent(), appId);
   }
 
-  public static void init(final UI ui, final String appId, JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket.init($0, $1)", appId, options);
+  public static PendingJavaScriptResult init(final UI ui, final String appId, JsonObject options) {
+    return ui.getPage().executeJs("window.LogRocket.init($0, $1)", appId, options);
   }
 
-  public static void init(final String appId, JsonObject options) {
-    init(UI.getCurrent(), appId, options);
+  public static PendingJavaScriptResult init(final String appId, JsonObject options) {
+    return init(UI.getCurrent(), appId, options);
   }
 
-  public static void init(final UI ui, final String appId, final InitOptions options) {
-    init(ui, appId, SerializationUtils.toElementalObject(options));
+  public static PendingJavaScriptResult init(final UI ui, final String appId, final InitOptions options) {
+    return init(ui, appId, SerializationUtils.toElementalObject(options));
   }
 
-  public static void init(final String appId, final InitOptions options) {
-    init(UI.getCurrent(), appId, options);
+  public static PendingJavaScriptResult init(final String appId, final InitOptions options) {
+    return init(UI.getCurrent(), appId, options);
   }
 
-  public static void log(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket.log($0)", MessageFormat.format(pattern, arguments));
+  public static PendingJavaScriptResult log(final UI ui, final String pattern, final Object... arguments) {
+    return ui.getPage().executeJs("window.LogRocket.log($0)", MessageFormat.format(pattern, arguments));
   }
 
-  public static void log(final String pattern, final Object... arguments) {
-    log(UI.getCurrent(), pattern, arguments);
+  public static PendingJavaScriptResult log(final String pattern, final Object... arguments) {
+    return log(UI.getCurrent(), pattern, arguments);
   }
 
-  public static void info(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket.info($0)", MessageFormat.format(pattern, arguments));
+  public static PendingJavaScriptResult info(final UI ui, final String pattern, final Object... arguments) {
+    return ui.getPage().executeJs("window.LogRocket.info($0)", MessageFormat.format(pattern, arguments));
   }
 
-  public static void info(final String pattern, final Object... arguments) {
-    info(UI.getCurrent(), pattern, arguments);
+  public static PendingJavaScriptResult info(final String pattern, final Object... arguments) {
+    return info(UI.getCurrent(), pattern, arguments);
   }
 
-  public static void warn(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket.warn($0)", MessageFormat.format(pattern, arguments));
+  public static PendingJavaScriptResult warn(final UI ui, final String pattern, final Object... arguments) {
+    return ui.getPage().executeJs("window.LogRocket.warn($0)", MessageFormat.format(pattern, arguments));
   }
 
-  public static void warn(final String pattern, final Object... arguments) {
-    warn(UI.getCurrent(), pattern, arguments);
+  public static PendingJavaScriptResult warn(final String pattern, final Object... arguments) {
+    return warn(UI.getCurrent(), pattern, arguments);
   }
 
-  public static void debug(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket.debug($0)", MessageFormat.format(pattern, arguments));
+  public static PendingJavaScriptResult debug(final UI ui, final String pattern, final Object... arguments) {
+    return ui.getPage().executeJs("window.LogRocket.debug($0)", MessageFormat.format(pattern, arguments));
   }
 
-  public static void debug(final String pattern, final Object... arguments) {
-    debug(UI.getCurrent(), pattern, arguments);
+  public static PendingJavaScriptResult debug(final String pattern, final Object... arguments) {
+    return debug(UI.getCurrent(), pattern, arguments);
   }
 
-  public static void error(final UI ui, final String pattern, final Object... arguments) {
-    ui.getPage().executeJs("window.LogRocket.error($0)", MessageFormat.format(pattern, arguments));
+  public static PendingJavaScriptResult error(final UI ui, final String pattern, final Object... arguments) {
+    return ui.getPage().executeJs("window.LogRocket.error($0)", MessageFormat.format(pattern, arguments));
   }
 
-  public static void error(final String pattern, final Object... arguments) {
-    error(UI.getCurrent(), pattern, arguments);
+  public static PendingJavaScriptResult error(final String pattern, final Object... arguments) {
+    return error(UI.getCurrent(), pattern, arguments);
+  }
+
+  public static PendingJavaScriptResult identify(final UI ui, final String uid, final JsonObject options) {
+    return ui.getPage().executeJs("window.LogRocket.identify($0, $1)", uid, options);
+  }
+
+  public static PendingJavaScriptResult identify(final String uid, final JsonObject options) {
+    return identify(UI.getCurrent(), uid, options);
+  }
+
+  public static PendingJavaScriptResult identify(final UI ui, final JsonObject options) {
+    return ui.getPage().executeJs("window.LogRocket.identify($0)", options);
+  }
+
+  public static PendingJavaScriptResult identify(final JsonObject options) {
+    return identify(UI.getCurrent(), options);
+  }
+
+  public static PendingJavaScriptResult identify(final UI ui, final String uid, final String name, final String email) {
+    final JsonObject object = Json.createObject();
+    object.put("name", name);
+    object.put("email", email);
+
+    return identify(ui, uid, object);
+  }
+
+  public static PendingJavaScriptResult identify(final String uid, final String name, final String email) {
+    return identify(UI.getCurrent(), uid, name, email);
+  }
+
+  public static PendingJavaScriptResult identify(final UI ui, final String name, final String email) {
+    final JsonObject object = Json.createObject();
+    object.put("name", name);
+    object.put("email", email);
+
+    return identify(ui, object);
+  }
+
+  public static PendingJavaScriptResult identify(final String name, final String email) {
+    return identify(UI.getCurrent(), name, email);
+  }
+
+  public static PendingJavaScriptResult track(final UI ui, final String eventName) {
+    return ui.getPage().executeJs("window.LogRocket.track($0)", eventName);
+  }
+
+  public static PendingJavaScriptResult track(final String eventName) {
+    return track(UI.getCurrent(), eventName);
+  }
+
+  public static PendingJavaScriptResult track(final UI ui, final String eventName, final JsonObject properties) {
+    return ui.getPage().executeJs("window.LogRocket.track($0, $1)", eventName, properties);
+  }
+
+  public static PendingJavaScriptResult track(final String eventName, final JsonObject properties) {
+    return track(UI.getCurrent(), eventName, properties);
+  }
+
+  public static PendingJavaScriptResult track(final UI ui, final String eventName, final TrackEventProperties properties) {
+    return track(ui, eventName, SerializationUtils.toElementalObject(properties));
+  }
+
+  public static PendingJavaScriptResult track(final String eventName, final TrackEventProperties properties) {
+    return track(UI.getCurrent(), eventName, properties);
+  }
+
+  public static PendingJavaScriptResult startNewSession(final UI ui) {
+    return ui.getPage().executeJs("window.LogRocket.startNewSession()");
+  }
+
+  public static PendingJavaScriptResult startNewSession() {
+    return startNewSession(UI.getCurrent());
   }
 
   public static CompletableFuture<String> version(final UI ui) {
@@ -107,92 +184,89 @@ public final class LogRocket {
         .toCompletableFuture(String.class);
   }
 
-  public static void identify(final UI ui, final String uid, final JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket.identify($0, $1)", uid, options);
+  public static CompletableFuture<String> version() {
+    return version(UI.getCurrent());
   }
 
-  public static void identify(final String uid, final JsonObject options) {
-    identify(UI.getCurrent(), uid, options);
+  public static CompletableFuture<String> sessionURL(final UI ui) {
+    return ui.getPage().executeJs("window.LogRocket.sessionURL")
+        .toCompletableFuture(String.class);
   }
 
-  public static void identify(final UI ui, final JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket.identify($0)", options);
+  public static CompletableFuture<String> sessionURL() {
+    return sessionURL(UI.getCurrent());
   }
 
-  public static void identify(final JsonObject options) {
-    identify(UI.getCurrent(), options);
+  public static PendingJavaScriptResult captureMessage(final UI ui, final String message) {
+    return ui.getPage().executeJs("window.LogRocket.captureMessage($0)", message);
   }
 
-  public static void identify(final UI ui, final String uid, final String name, final String email) {
-    final JsonObject object = Json.createObject();
-    object.put("name", name);
-    object.put("email", email);
-
-    identify(ui, uid, object);
+  public static PendingJavaScriptResult captureMessage(final String message) {
+    return captureMessage(UI.getCurrent(), message);
   }
 
-  public static void identify(final String uid, final String name, final String email) {
-    identify(UI.getCurrent(), uid, name, email);
+  public static PendingJavaScriptResult captureMessage(final UI ui, final String message, final JsonObject options) {
+    return ui.getPage().executeJs("window.LogRocket.captureMessage($0, $1)", message, options);
   }
 
-  public static void identify(final UI ui, final String name, final String email) {
-    final JsonObject object = Json.createObject();
-    object.put("name", name);
-    object.put("email", email);
-
-    identify(ui, object);
+  public static PendingJavaScriptResult captureMessage(final String message, final JsonObject options) {
+    return captureMessage(UI.getCurrent(), message, options);
   }
 
-  public static void identify(final String name, final String email) {
-    identify(UI.getCurrent(), name, email);
+  public static PendingJavaScriptResult captureMessage(final UI ui, final String message, final CaptureOptions options) {
+    return captureMessage(ui, message, SerializationUtils.toElementalObject(options));
   }
 
-  public static void captureMessage(final UI ui, final String message) {
-    ui.getPage().executeJs("window.LogRocket.captureMessage($0)", message);
+  public static PendingJavaScriptResult captureMessage(final String message, final CaptureOptions options) {
+    return captureMessage(UI.getCurrent(), message, options);
   }
 
-  public static void captureMessage(final String message) {
-    captureMessage(UI.getCurrent(), message);
+  public static PendingJavaScriptResult captureException(final UI ui, final JsonObject exception) {
+    return ui.getPage().executeJs("window.LogRocket.captureException($0)", exception);
   }
 
-  public static void captureMessage(final UI ui, final String message, final JsonObject options) {
-    ui.getPage().executeJs("window.LogRocket.captureMessage($0, $1)", message, options);
+  public static PendingJavaScriptResult captureException(final JsonObject exception) {
+    return captureException(UI.getCurrent(), exception);
   }
 
-  public static void captureMessage(final String message, final JsonObject options) {
-    captureMessage(UI.getCurrent(), message, options);
+  public static PendingJavaScriptResult captureException(final UI ui, final JsonObject exception, final JsonObject options) {
+    return ui.getPage().executeJs("window.LogRocket.captureException($0, $1)", exception, options);
   }
 
-  public static void captureMessage(final UI ui, final String message, final CaptureOptions options) {
-    captureMessage(ui, message, SerializationUtils.toElementalObject(options));
+  public static PendingJavaScriptResult captureException(final JsonObject exception, final JsonObject options) {
+    return captureException(UI.getCurrent(), exception, options);
   }
 
-  public static void captureMessage(final String message, final CaptureOptions options) {
-    captureMessage(UI.getCurrent(), message, options);
+  public static PendingJavaScriptResult captureException(final UI ui, final JsonObject exception, final CaptureOptions options) {
+    return captureException(ui, exception, SerializationUtils.toElementalObject(options));
   }
 
-  public static void track(final UI ui, final String eventName) {
-    ui.getPage().executeJs("window.LogRocket.track($0)", eventName);
+  public static PendingJavaScriptResult captureException(final JsonObject exception, final CaptureOptions options) {
+    return captureException(UI.getCurrent(), exception, options);
   }
 
-  public static void track(final String eventName) {
-    track(UI.getCurrent(), eventName);
+  public static PendingJavaScriptResult captureException(final UI ui, final Error exception) {
+    return captureException(ui, SerializationUtils.toElementalObject(exception));
   }
 
-  public static void track(final UI ui, final String eventName, final JsonObject properties) {
-    ui.getPage().executeJs("window.LogRocket.track($0, $1)", eventName, properties);
+  public static PendingJavaScriptResult captureException(final Error exception) {
+    return captureException(UI.getCurrent(), exception);
   }
 
-  public static void track(final String eventName, final JsonObject properties) {
-    track(UI.getCurrent(), eventName, properties);
+  public static PendingJavaScriptResult captureException(final UI ui, final Error exception, final JsonObject options) {
+    return captureException(ui, SerializationUtils.toElementalObject(exception), options);
   }
 
-  public static void track(final UI ui, final String eventName, final TrackEventProperties properties) {
-    track(ui, eventName, SerializationUtils.toElementalObject(properties));
+  public static PendingJavaScriptResult captureException(final Error exception, final JsonObject options) {
+    return captureException(UI.getCurrent(), exception, options);
   }
 
-  public static void track(final String eventName, final TrackEventProperties properties) {
-    track(UI.getCurrent(), eventName, properties);
+  public static PendingJavaScriptResult captureException(final UI ui, final Error exception, final CaptureOptions options) {
+    return captureException(ui, exception, SerializationUtils.toElementalObject(exception));
+  }
+
+  public static PendingJavaScriptResult captureException(final Error exception, final CaptureOptions options) {
+    return captureException(UI.getCurrent(), exception, options);
   }
 
   // Constructors
