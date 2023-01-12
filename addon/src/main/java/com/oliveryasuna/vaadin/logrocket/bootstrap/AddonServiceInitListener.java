@@ -18,6 +18,7 @@
 
 package com.oliveryasuna.vaadin.logrocket.bootstrap;
 
+import com.oliveryasuna.vaadin.logrocket.config.AddonConfiguration;
 import com.oliveryasuna.vaadin.logrocket.config.AddonConfigurationLoader;
 import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
 import com.vaadin.flow.server.ServiceInitEvent;
@@ -59,10 +60,12 @@ public final class AddonServiceInitListener implements VaadinServiceInitListener
   public final void serviceInit(final ServiceInitEvent event) {
     initConfig();
 
-    final LogRocketBootstrapper logRocketBootstrapper = new LogRocketBootstrapper();
+    if(AddonConfiguration.getInstance().isAutoInit()) {
+      final LogRocketBootstrapper logRocketBootstrapper = new LogRocketBootstrapper();
 
-    event.addIndexHtmlRequestListener(logRocketBootstrapper);
-    event.getSource().addUIInitListener(logRocketBootstrapper);
+      event.addIndexHtmlRequestListener(logRocketBootstrapper);
+      event.getSource().addUIInitListener(logRocketBootstrapper);
+    }
   }
 
 }
