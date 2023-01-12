@@ -21,7 +21,7 @@ package com.oliveryasuna.vaadin.logrocket;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
 import com.oliveryasuna.vaadin.logrocket.type.CaptureOptions;
 import com.oliveryasuna.vaadin.logrocket.type.Error;
-import com.oliveryasuna.vaadin.logrocket.type.InitOptions;
+import com.oliveryasuna.vaadin.logrocket.type.Options;
 import com.oliveryasuna.vaadin.logrocket.type.TrackEventProperties;
 import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
 import com.vaadin.flow.component.UI;
@@ -58,11 +58,11 @@ public final class LogRocket {
     return init(UI.getCurrent(), appId, options);
   }
 
-  public static PendingJavaScriptResult init(final UI ui, final String appId, final InitOptions options) {
+  public static PendingJavaScriptResult init(final UI ui, final String appId, final Options options) {
     return init(ui, appId, SerializationUtils.toElementalObject(options));
   }
 
-  public static PendingJavaScriptResult init(final String appId, final InitOptions options) {
+  public static PendingJavaScriptResult init(final String appId, final Options options) {
     return init(UI.getCurrent(), appId, options);
   }
 

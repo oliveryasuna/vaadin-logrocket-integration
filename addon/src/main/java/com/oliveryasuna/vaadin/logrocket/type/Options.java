@@ -20,27 +20,24 @@ package com.oliveryasuna.vaadin.logrocket.type;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.apache.commons.lang3.BooleanUtils;
+import org.unbrokendome.jackson.beanvalidation.JsonValidated;
 
-import java.io.IOException;
+import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * Counterpart to the LogRocket JavaScript API's {@code IOptions}.
+ * LogRocket JavaScript API's {@code IOptions}.
  *
  * @author Oliver Yasuna
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class InitOptions implements Serializable {
+@JsonValidated
+public class Options implements Serializable {
 
   // Constructors
   //--------------------------------------------------
 
-  public InitOptions() {
+  public Options() {
     super();
   }
 
@@ -48,28 +45,62 @@ public class InitOptions implements Serializable {
   //--------------------------------------------------
 
   @JsonProperty("release")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String release;
 
   @JsonProperty("console")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Valid
   private Console console;
 
-  @JsonProperty("network")
-  private Network network;
-
   @JsonProperty("dom")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Valid
   private Dom dom;
 
   @JsonProperty("shouldCaptureIP")
-  private Boolean shouldCaptureIp;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Boolean shouldCaptureIP;
 
   @JsonProperty("rootHostname")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String rootHostname;
 
+  @JsonProperty("ingestServer")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String ingestServer;
+
+  @JsonProperty("sdkServer")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String sdkServer;
+
+  @JsonProperty("uploadTimeInterval")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Integer uploadTimeInterval;
+
   @JsonProperty("shouldDebugLog")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean shouldDebugLog;
 
   @JsonProperty("mergeIframes")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean mergeIframes;
+
+  @JsonProperty("childDomains")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<String> childDomains;
+
+  @JsonProperty("parentDomain")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String parentDomain;
+
+  @JsonProperty("shouldAugmentNPS")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Boolean shouldAugmentNPS;
+
+  @JsonProperty("shouldParseXHRBlob")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Boolean shouldParseXHRBlob;
 
   // Getters/setters
   //--------------------------------------------------
@@ -90,14 +121,6 @@ public class InitOptions implements Serializable {
     this.console = console;
   }
 
-  public Network getNetwork() {
-    return network;
-  }
-
-  public void setNetwork(final Network network) {
-    this.network = network;
-  }
-
   public Dom getDom() {
     return dom;
   }
@@ -106,12 +129,12 @@ public class InitOptions implements Serializable {
     this.dom = dom;
   }
 
-  public Boolean getShouldCaptureIp() {
-    return shouldCaptureIp;
+  public Boolean getShouldCaptureIP() {
+    return shouldCaptureIP;
   }
 
-  public void setShouldCaptureIp(final Boolean shouldCaptureIp) {
-    this.shouldCaptureIp = shouldCaptureIp;
+  public void setShouldCaptureIP(final Boolean shouldCaptureIP) {
+    this.shouldCaptureIP = shouldCaptureIP;
   }
 
   public String getRootHostname() {
@@ -120,6 +143,30 @@ public class InitOptions implements Serializable {
 
   public void setRootHostname(final String rootHostname) {
     this.rootHostname = rootHostname;
+  }
+
+  public String getIngestServer() {
+    return ingestServer;
+  }
+
+  public void setIngestServer(final String ingestServer) {
+    this.ingestServer = ingestServer;
+  }
+
+  public String getSdkServer() {
+    return sdkServer;
+  }
+
+  public void setSdkServer(final String sdkServer) {
+    this.sdkServer = sdkServer;
+  }
+
+  public Integer getUploadTimeInterval() {
+    return uploadTimeInterval;
+  }
+
+  public void setUploadTimeInterval(final Integer uploadTimeInterval) {
+    this.uploadTimeInterval = uploadTimeInterval;
   }
 
   public Boolean getShouldDebugLog() {
@@ -138,10 +185,42 @@ public class InitOptions implements Serializable {
     this.mergeIframes = mergeIframes;
   }
 
+  public List<String> getChildDomains() {
+    return childDomains;
+  }
+
+  public void setChildDomains(final List<String> childDomains) {
+    this.childDomains = childDomains;
+  }
+
+  public String getParentDomain() {
+    return parentDomain;
+  }
+
+  public void setParentDomain(final String parentDomain) {
+    this.parentDomain = parentDomain;
+  }
+
+  public Boolean getShouldAugmentNPS() {
+    return shouldAugmentNPS;
+  }
+
+  public void setShouldAugmentNPS(final Boolean shouldAugmentNPS) {
+    this.shouldAugmentNPS = shouldAugmentNPS;
+  }
+
+  public Boolean getShouldParseXHRBlob() {
+    return shouldParseXHRBlob;
+  }
+
+  public void setShouldParseXHRBlob(final Boolean shouldParseXHRBlob) {
+    this.shouldParseXHRBlob = shouldParseXHRBlob;
+  }
+
   // Nested
   //--------------------------------------------------
 
-  @JsonSerialize(using = InitOptionsConsoleSerializer.class)
+  @JsonValidated
   public static class Console implements Serializable {
 
     // Constructors
@@ -155,31 +234,34 @@ public class InitOptions implements Serializable {
     //--------------------------------------------------
 
     @JsonProperty("isEnabled")
-    private Boolean isEnabled;
-
-    @JsonProperty("isEnabled")
-    private IsEnabled isEnabledObject;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Valid
+    private Object isEnabled;
 
     @JsonProperty("shouldAggregateConsoleErrors")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean shouldAggregateConsoleErrors;
 
-    // Getters/setters
+    // Methods
     //--------------------------------------------------
-
-    public Boolean getIsEnabled() {
-      return isEnabled;
-    }
 
     public void setIsEnabled(final Boolean isEnabled) {
       this.isEnabled = isEnabled;
     }
 
-    public IsEnabled getIsEnabledObject() {
-      return isEnabledObject;
+    public void setIsEnabled(final IsEnabled isEnabled) {
+      this.isEnabled = isEnabled;
     }
 
-    public void setIsEnabledObject(final IsEnabled isEnabledObject) {
-      this.isEnabledObject = isEnabledObject;
+    // Getters/setters
+    //--------------------------------------------------
+
+    public Object getIsEnabled() {
+      return isEnabled;
+    }
+
+    protected void setIsEnabled(final Object isEnabled) {
+      this.isEnabled = isEnabled;
     }
 
     public Boolean getShouldAggregateConsoleErrors() {
@@ -193,7 +275,7 @@ public class InitOptions implements Serializable {
     // Nested
     //--------------------------------------------------
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonValidated
     public static class IsEnabled implements Serializable {
 
       // Constructors
@@ -207,18 +289,23 @@ public class InitOptions implements Serializable {
       //--------------------------------------------------
 
       @JsonProperty("log")
+      @JsonInclude(JsonInclude.Include.NON_NULL)
       private Boolean log;
 
       @JsonProperty("info")
+      @JsonInclude(JsonInclude.Include.NON_NULL)
       private Boolean info;
 
       @JsonProperty("debug")
+      @JsonInclude(JsonInclude.Include.NON_NULL)
       private Boolean debug;
 
       @JsonProperty("warn")
+      @JsonInclude(JsonInclude.Include.NON_NULL)
       private Boolean warn;
 
       @JsonProperty("error")
+      @JsonInclude(JsonInclude.Include.NON_NULL)
       private Boolean error;
 
       // Getters/setters
@@ -268,36 +355,7 @@ public class InitOptions implements Serializable {
 
   }
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  public static class Network implements Serializable {
-
-    // Constructors
-    //--------------------------------------------------
-
-    public Network() {
-      super();
-    }
-
-    // Fields
-    //--------------------------------------------------
-
-    @JsonProperty("isEnabled")
-    private Boolean isEnabled;
-
-    // Getters/setters
-    //--------------------------------------------------
-
-    public Boolean getIsEnabled() {
-      return isEnabled;
-    }
-
-    public void setIsEnabled(final Boolean isEnabled) {
-      this.isEnabled = isEnabled;
-    }
-
-  }
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonValidated
   public static class Dom implements Serializable {
 
     // Constructors
@@ -311,27 +369,46 @@ public class InitOptions implements Serializable {
     //--------------------------------------------------
 
     @JsonProperty("isEnabled")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isEnabled;
 
-    @JsonProperty("inputSanitizer")
-    private Boolean inputSanitizer;
+    @JsonProperty("baseHref")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String baseHref;
 
     @JsonProperty("textSanitizer")
-    private Boolean textSanitizer;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Object textSanitizer;
 
-    @JsonProperty("baseHref")
-    private String baseHref;
+    @JsonProperty("inputSanitizer")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Object inputSanitizer;
+
+    @JsonProperty("privateAttributeBlocklist")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<String> privateAttributeBlocklist;
+
+    // Methods
+    //--------------------------------------------------
+
+    public void setTextSanitizer(final Boolean textSanitizer) {
+      this.textSanitizer = textSanitizer;
+    }
+
+    public void setTextSanitizer(final String textSanitizer) {
+      this.textSanitizer = textSanitizer;
+    }
+
+    public void setInputSanitizer(final Boolean inputSanitizer) {
+      this.inputSanitizer = inputSanitizer;
+    }
+
+    public void setInputSanitizer(final String inputSanitizer) {
+      this.inputSanitizer = inputSanitizer;
+    }
 
     // Getters/setters
     //--------------------------------------------------
-
-    public Boolean getIsEnabled() {
-      return isEnabled;
-    }
-
-    public void setIsEnabled(final Boolean isEnabled) {
-      this.isEnabled = isEnabled;
-    }
 
     public Boolean getEnabled() {
       return isEnabled;
@@ -339,22 +416,6 @@ public class InitOptions implements Serializable {
 
     public void setEnabled(final Boolean enabled) {
       isEnabled = enabled;
-    }
-
-    public Boolean getInputSanitizer() {
-      return inputSanitizer;
-    }
-
-    public void setInputSanitizer(final Boolean inputSanitizer) {
-      this.inputSanitizer = inputSanitizer;
-    }
-
-    public Boolean getTextSanitizer() {
-      return textSanitizer;
-    }
-
-    public void setTextSanitizer(final Boolean textSanitizer) {
-      this.textSanitizer = textSanitizer;
     }
 
     public String getBaseHref() {
@@ -365,39 +426,22 @@ public class InitOptions implements Serializable {
       this.baseHref = baseHref;
     }
 
-  }
-
-}
-
-// Private classes
-//--------------------------------------------------
-
-final class InitOptionsConsoleSerializer extends StdSerializer<InitOptions.Console> {
-
-  // Constructors
-  //--------------------------------------------------
-
-  public InitOptionsConsoleSerializer() {
-    super(InitOptions.Console.class);
-  }
-
-  // Methods
-  //--------------------------------------------------
-
-  @Override
-  public final void serialize(final InitOptions.Console value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
-    gen.writeStartObject();
-
-    if(BooleanUtils.isTrue(value.getIsEnabled())) {
-      gen.writeBooleanField("isEnabled", value.getIsEnabled());
-    } else if(value.getIsEnabledObject() != null) {
-      gen.writeObjectField("isEnabled", value.getIsEnabledObject());
-    }
-    if(value.getShouldAggregateConsoleErrors() != null) {
-      gen.writeBooleanField("shouldAggregateConsoleErrors", value.getShouldAggregateConsoleErrors());
+    public Object getTextSanitizer() {
+      return textSanitizer;
     }
 
-    gen.writeEndObject();
+    public Object getInputSanitizer() {
+      return inputSanitizer;
+    }
+
+    public List<String> getPrivateAttributeBlocklist() {
+      return privateAttributeBlocklist;
+    }
+
+    public void setPrivateAttributeBlocklist(final List<String> privateAttributeBlocklist) {
+      this.privateAttributeBlocklist = privateAttributeBlocklist;
+    }
+
   }
 
 }
