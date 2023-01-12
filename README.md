@@ -21,8 +21,29 @@ Integrates LogRocket with your Vaadin application.
 
 Set the `LOGROCKET_APP_ID` environment variable to your LogRocket app ID.
 
-_Alternatively, you can set it directly in the configuration.
-Read more [here](#configuration)._
+Alternatively, you can set it directly in the configuration.
+Read more [here](#configuration).
+
+3. **Add the LogRocket script to your page.**
+
+One way to do so is by adding it to `index.html`:
+
+```java
+public class LogRocketBoostrapper implements IndexHtmlRequestListener {
+  public void modifyIndexHtmlResponse(final IndexHtmlResponse response) {
+    final Document document = response.getDocument();
+
+    final Element scriptElement = document.createElement("script");
+    scriptElement.attr("src", "https://cdn.lr-in-prod.com/LogRocket.min.js");
+    scriptElement.attr("crossorigin", "anonymous");
+
+    document.head().appendChild(scriptElement);
+  }
+}
+```
+
+Alternatively, you can enable `autoInit` in the configuration.
+Read more [here](#configuration).
 
 3. **Identify your users.**
 
@@ -37,12 +58,14 @@ public void onAuthenticate(final User user) {
 
 ### Configuration
 
-Create a file name `vaadin-logrocket.properties` in `src/main/resources`.
+To override the default configuration, create a file name `vaadin-logrocket.properties` in `src/main/resources`.
 
 | Property          | Description                                     | Default               |
 |-------------------|-------------------------------------------------|-----------------------|
 | `autoInit`        | Automatically initialize LogRocket for new UIs. | `true`                |
 | `logrocket.appId` | LogRocket app ID.                               | `${LOGROCKET_APP_ID}` |
+
+Alternatively, you can implement your own configuration loader by implementing the interface `AddonConfigurationLoader` and loading it with SPI.
 
 ## License
 

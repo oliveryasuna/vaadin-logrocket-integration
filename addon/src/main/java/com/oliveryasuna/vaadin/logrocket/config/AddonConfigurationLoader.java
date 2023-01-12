@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Oliver Yasuna
+ * Copyright 2023 Oliver Yasuna
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
  *
@@ -18,62 +18,23 @@
 
 package com.oliveryasuna.vaadin.logrocket.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
-import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
-import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.text.StringSubstitutor;
-import org.apache.commons.text.lookup.StringLookupFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
 /**
- * Helper methods for loading configuration files.
+ * Loads configuration.
  *
  * @author Oliver Yasuna
  */
-public final class AddonConfigurationLoader {
+public interface AddonConfigurationLoader {
 
-  // Static fields
+  // Methods
   //--------------------------------------------------
 
-  private static final String CONFIGURATION_FILENAME = "vaadin-logrocket.properties";
-
-  private static final StringSubstitutor ENVIRONMENT_VARIABLE_SUBSTITUTOR
-      = new StringSubstitutor(StringLookupFactory.INSTANCE.environmentVariableStringLookup());
-
-  // Static methods
-  //--------------------------------------------------
-
-  public static void load() throws IOException {
-    try(final InputStream is = AddonConfigurationLoader.class.getResourceAsStream("/" + CONFIGURATION_FILENAME)) {
-      if(is == null) return;
-
-      final String raw = IOUtils.toString(is, StandardCharsets.UTF_8);
-      final String resolved = ENVIRONMENT_VARIABLE_SUBSTITUTOR.replace(raw);
-
-      AddonConfiguration.updateInstance(addonConfiguration -> {
-        try {
-          SerializationUtils.PROPERTIES_MAPPER.readerForUpdating(addonConfiguration).readValue(resolved);
-        } catch(final JsonProcessingException e) {
-          throw new ConfigurationLoadException(e);
-        }
-      });
-    } finally {
-      System.out.println("Loaded configuration: " + AddonConfiguration.getInstance());
-    }
-  }
-
-  // Constructors
-  //--------------------------------------------------
-
-  private AddonConfigurationLoader() {
-    super();
-
-    throw new UnsupportedInstantiationException();
-  }
+  /**
+   * Loads configuration.
+   * <p>
+   * You can update the configuration by calling {@link AddonConfiguration#updateInstance(java.util.function.Consumer)}.
+   *
+   * @throws Exception If an error occurs.
+   */
+  void load() throws Exception;
 
 }
