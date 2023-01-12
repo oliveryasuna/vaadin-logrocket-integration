@@ -22,7 +22,6 @@ package com.oliveryasuna.vaadin.logrocket.exception;
  * Exception thrown when the configuration file cannot be loaded.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public class ConfigurationLoadException extends RuntimeException {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Oliver Yasuna
+ * Copyright 2023 Oliver Yasuna
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
  *
@@ -16,18 +16,22 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket;
+package com.oliveryasuna.vaadin.logrocket.type;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
+import org.unbrokendome.jackson.beanvalidation.JsonValidated;
 
 import java.io.IOException;
 import java.util.Map;
 
 @JsonSerialize(using = TrackEventPropertiesSerializer.class)
+@JsonValidated
 public class TrackEventProperties {
 
   // Constructors
@@ -40,6 +44,8 @@ public class TrackEventProperties {
   // Fields
   //--------------------------------------------------
 
+  @JsonProperty("revenue")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Double revenue;
 
   private Map<String, Object> properties;
@@ -84,14 +90,20 @@ final class TrackEventPropertiesSerializer extends StdSerializer<TrackEventPrope
   public final void serialize(final TrackEventProperties value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
     gen.writeStartObject();
 
-    if(value.getRevenue() != null) {
-      gen.writeNumberField("revenue", value.getRevenue());
+    final Double revenue = value.getRevenue();
+
+    if(revenue != null) {
+      gen.writeNumberField("revenue", revenue);
     }
-    if(value.getProperties() != null) {
+
+    final Map<String, Object> properties = value.getProperties();
+
+    if(properties != null) {
       gen.writeObjectFieldStart("properties");
-      for(final Map.Entry<String, Object> properties : value.getProperties().entrySet()) {
-        final String key = properties.getKey();
-        final Object val = properties.getValue();
+
+      for(final Map.Entry<String, Object> property : properties.entrySet()) {
+        final String key = property.getKey();
+        final Object val = property.getValue();
 
         if(val == null) {
           gen.writeNullField(key);
@@ -99,6 +111,7 @@ final class TrackEventPropertiesSerializer extends StdSerializer<TrackEventPrope
           final Class<?> type = val.getClass().getComponentType();
 
           gen.writeArrayFieldStart(key);
+
           if(type == String.class) {
             for(final String s : (String[])val) gen.writeString(s);
           } else if(type == Integer.class) {
@@ -114,6 +127,7 @@ final class TrackEventPropertiesSerializer extends StdSerializer<TrackEventPrope
           } else {
             throw new SerializationException("Unsupported array type: " + type);
           }
+
           gen.writeEndArray();
         } else {
           if(val instanceof String) {
@@ -133,6 +147,7 @@ final class TrackEventPropertiesSerializer extends StdSerializer<TrackEventPrope
           }
         }
       }
+
       gen.writeEndObject();
     }
 

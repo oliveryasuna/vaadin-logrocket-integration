@@ -33,7 +33,6 @@ import org.jsoup.nodes.Element;
  * Handles LogRocket on the client-side.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public class LogRocketBootstrapper implements IndexHtmlRequestListener, UIInitListener {
 

@@ -16,54 +16,61 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket.bootstrap;
+package com.oliveryasuna.vaadin.logrocket.config;
 
-import com.oliveryasuna.vaadin.logrocket.config.AddonConfiguration;
-import com.oliveryasuna.vaadin.logrocket.config.AddonConfigurationLoader;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
-import com.vaadin.flow.server.ServiceInitEvent;
-import com.vaadin.flow.server.VaadinServiceInitListener;
+import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.text.StringSubstitutor;
+import org.apache.commons.text.lookup.StringLookupFactory;
 
-import java.util.ServiceLoader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
- * Vaadin service init listener for the addon.
+ * Helper methods for loading configuration files.
  *
  * @author Oliver Yasuna
  */
-public class AddonServiceInitListener implements VaadinServiceInitListener {
+public class DefaultAddonConfigurationLoader implements AddonConfigurationLoader {
+
+  // Static fields
+  //--------------------------------------------------
+
+  private static final String CONFIGURATION_FILENAME = "vaadin-logrocket.properties";
+
+  private static final StringSubstitutor ENVIRONMENT_VARIABLE_SUBSTITUTOR
+      = new StringSubstitutor(StringLookupFactory.INSTANCE.environmentVariableStringLookup());
 
   // Constructors
   //--------------------------------------------------
 
-  public AddonServiceInitListener() {
+  public DefaultAddonConfigurationLoader() {
     super();
   }
 
   // Methods
   //--------------------------------------------------
 
-  protected void initConfig() {
-    final ServiceLoader<AddonConfigurationLoader> serviceLoader = ServiceLoader.load(AddonConfigurationLoader.class);
-
-    for(final AddonConfigurationLoader configurationLoader : serviceLoader) {
-      try {
-        configurationLoader.load();
-      } catch(final Exception e) {
-        throw new ConfigurationLoadException(e);
-      }
-    }
-  }
-
   @Override
-  public final void serviceInit(final ServiceInitEvent event) {
-    initConfig();
+  public void load() throws IOException {
+    try(final InputStream is = DefaultAddonConfigurationLoader.class.getResourceAsStream("/" + CONFIGURATION_FILENAME)) {
+      if(is == null) {
+        return;
+      }
 
-    if(AddonConfiguration.getInstance().isAutoInit()) {
-      final LogRocketBootstrapper logRocketBootstrapper = new LogRocketBootstrapper();
+      final String raw = IOUtils.toString(is, StandardCharsets.UTF_8);
+      final String resolved = ENVIRONMENT_VARIABLE_SUBSTITUTOR.replace(raw);
 
-      event.addIndexHtmlRequestListener(logRocketBootstrapper);
-      event.getSource().addUIInitListener(logRocketBootstrapper);
+      AddonConfiguration.updateInstance(addonConfiguration -> {
+        try {
+          SerializationUtils.PROPERTIES_MAPPER.readerForUpdating(addonConfiguration).readValue(resolved);
+        } catch(final JsonProcessingException e) {
+          throw new ConfigurationLoadException(e);
+        }
+      });
     }
   }
 

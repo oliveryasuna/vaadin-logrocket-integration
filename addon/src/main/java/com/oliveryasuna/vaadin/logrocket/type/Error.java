@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Oliver Yasuna
+ * Copyright 2023 Oliver Yasuna
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
  *
@@ -16,55 +16,56 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket.bootstrap;
+package com.oliveryasuna.vaadin.logrocket.type;
 
-import com.oliveryasuna.vaadin.logrocket.config.AddonConfiguration;
-import com.oliveryasuna.vaadin.logrocket.config.AddonConfigurationLoader;
-import com.oliveryasuna.vaadin.logrocket.exception.ConfigurationLoadException;
-import com.vaadin.flow.server.ServiceInitEvent;
-import com.vaadin.flow.server.VaadinServiceInitListener;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ServiceLoader;
-
-/**
- * Vaadin service init listener for the addon.
- *
- * @author Oliver Yasuna
- */
-public class AddonServiceInitListener implements VaadinServiceInitListener {
+public class Error {
 
   // Constructors
   //--------------------------------------------------
 
-  public AddonServiceInitListener() {
+  public Error() {
     super();
   }
 
-  // Methods
+  // Fields
   //--------------------------------------------------
 
-  protected void initConfig() {
-    final ServiceLoader<AddonConfigurationLoader> serviceLoader = ServiceLoader.load(AddonConfigurationLoader.class);
+  @JsonProperty(value = "name", required = true)
+  private String name;
 
-    for(final AddonConfigurationLoader configurationLoader : serviceLoader) {
-      try {
-        configurationLoader.load();
-      } catch(final Exception e) {
-        throw new ConfigurationLoadException(e);
-      }
-    }
+  @JsonProperty(value = "message", required = true)
+  private String message;
+
+  @JsonProperty("stack")
+  private String stack;
+
+  // Getters/setters
+  //--------------------------------------------------
+
+  public String getName() {
+    return name;
   }
 
-  @Override
-  public final void serviceInit(final ServiceInitEvent event) {
-    initConfig();
+  public void setName(final String name) {
+    this.name = name;
+  }
 
-    if(AddonConfiguration.getInstance().isAutoInit()) {
-      final LogRocketBootstrapper logRocketBootstrapper = new LogRocketBootstrapper();
+  public String getMessage() {
+    return message;
+  }
 
-      event.addIndexHtmlRequestListener(logRocketBootstrapper);
-      event.getSource().addUIInitListener(logRocketBootstrapper);
-    }
+  public void setMessage(final String message) {
+    this.message = message;
+  }
+
+  public String getStack() {
+    return stack;
+  }
+
+  public void setStack(final String stack) {
+    this.stack = stack;
   }
 
 }

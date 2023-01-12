@@ -28,14 +28,13 @@ import java.util.function.Consumer;
  * Addon configuration.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public class AddonConfiguration implements Serializable {
 
   // Static fields
   //--------------------------------------------------
 
-  private static final AddonConfiguration INSTANCE = new AddonConfiguration(true, new LogRocketConfiguration(System.getenv("LOGROCKET_APP_ID")));
+  private static final AddonConfiguration INSTANCE = new AddonConfiguration(false, new LogRocketConfiguration(System.getenv("LOGROCKET_APP_ID")));
 
   private static final ReentrantLock INSTANCE_LOCK = new ReentrantLock();
 

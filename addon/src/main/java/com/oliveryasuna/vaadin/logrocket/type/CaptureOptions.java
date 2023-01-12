@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Oliver Yasuna
+ * Copyright 2023 Oliver Yasuna
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
  *
@@ -16,20 +16,23 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.oliveryasuna.vaadin.logrocket;
+package com.oliveryasuna.vaadin.logrocket.type;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
+import org.unbrokendome.jackson.beanvalidation.JsonValidated;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
 @JsonSerialize(using = CaptureOptionsSerializer.class)
+@JsonValidated
 public class CaptureOptions implements Serializable {
 
   // Constructors
@@ -43,9 +46,11 @@ public class CaptureOptions implements Serializable {
   //--------------------------------------------------
 
   @JsonProperty("tags")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Object> tags;
 
   @JsonProperty("extra")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Object> extra;
 
   // Getters/setters
