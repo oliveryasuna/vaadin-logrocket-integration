@@ -30,7 +30,6 @@ import elemental.json.JsonObject;
  * Serialization utilities.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public final class SerializationUtils {
 

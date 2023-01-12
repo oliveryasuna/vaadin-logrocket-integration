@@ -26,7 +26,6 @@ import java.io.Serializable;
  * LogRocket configuration.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public class LogRocketConfiguration implements Serializable {
 

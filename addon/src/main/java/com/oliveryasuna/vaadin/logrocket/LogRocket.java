@@ -36,7 +36,6 @@ import java.util.concurrent.CompletableFuture;
  * LogRocket utility class.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public final class LogRocket {
 

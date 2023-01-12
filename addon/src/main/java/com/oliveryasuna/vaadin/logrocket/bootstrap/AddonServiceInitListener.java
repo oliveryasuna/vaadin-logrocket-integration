@@ -30,7 +30,6 @@ import java.io.IOException;
  * Vaadin service init listener for the addon.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public final class AddonServiceInitListener implements VaadinServiceInitListener {
 

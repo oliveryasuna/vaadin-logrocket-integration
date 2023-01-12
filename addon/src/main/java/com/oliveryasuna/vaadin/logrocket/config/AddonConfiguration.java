@@ -28,7 +28,6 @@ import java.util.function.Consumer;
  * Addon configuration.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public class AddonConfiguration implements Serializable {
 

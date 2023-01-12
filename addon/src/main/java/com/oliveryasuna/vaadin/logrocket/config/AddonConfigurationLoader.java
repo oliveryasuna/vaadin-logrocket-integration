@@ -34,7 +34,6 @@ import java.nio.charset.StandardCharsets;
  * Helper methods for loading configuration files.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public final class AddonConfigurationLoader {
 

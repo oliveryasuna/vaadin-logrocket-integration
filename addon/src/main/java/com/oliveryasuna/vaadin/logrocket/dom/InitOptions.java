@@ -33,7 +33,6 @@ import java.io.Serializable;
  * Counterpart to the LogRocket JavaScript API's {@code IOptions}.
  *
  * @author Oliver Yasuna
- * @since 1.1.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InitOptions implements Serializable {

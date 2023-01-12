@@ -22,7 +22,6 @@ package com.oliveryasuna.vaadin.logrocket.exception;
  * Exception thrown serializing an object.
  *
  * @author Oliver Yasuna
- * @since 1.0.0
  */
 public class SerializationException extends RuntimeException {
 
