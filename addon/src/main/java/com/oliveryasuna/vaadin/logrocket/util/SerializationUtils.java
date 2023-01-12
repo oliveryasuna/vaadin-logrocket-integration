@@ -19,12 +19,16 @@
 package com.oliveryasuna.vaadin.logrocket.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
 import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
 import elemental.json.Json;
 import elemental.json.JsonObject;
+import org.unbrokendome.jackson.beanvalidation.BeanValidationModule;
+
+import javax.validation.Validation;
 
 /**
  * Serialization utilities.
@@ -36,7 +40,8 @@ public final class SerializationUtils {
   // Static fields
   //--------------------------------------------------
 
-  public static final JsonMapper JSON_MAPPER = new JsonMapper();
+  public static final ObjectMapper JSON_MAPPER = new JsonMapper()
+      .registerModule(new BeanValidationModule(Validation.byDefaultProvider().configure().buildValidatorFactory()));
 
   public static final JavaPropsMapper PROPERTIES_MAPPER = new JavaPropsMapper();
 

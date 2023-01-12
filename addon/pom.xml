@@ -68,6 +68,12 @@
       <version>2.14.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.unbroken-dome.jackson-bean-validation</groupId>
+      <artifactId>jackson-bean-validation</artifactId>
+      <version>0.6.0</version>
+    </dependency>
+
     <!--=========================
     ==== Miscellaneous
     =========================-->

@@ -19,10 +19,10 @@
 package com.oliveryasuna.vaadin.logrocket;
 
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
-import com.oliveryasuna.vaadin.logrocket.dom.CaptureOptions;
-import com.oliveryasuna.vaadin.logrocket.dom.Error;
-import com.oliveryasuna.vaadin.logrocket.dom.InitOptions;
-import com.oliveryasuna.vaadin.logrocket.dom.TrackEventProperties;
+import com.oliveryasuna.vaadin.logrocket.type.CaptureOptions;
+import com.oliveryasuna.vaadin.logrocket.type.Error;
+import com.oliveryasuna.vaadin.logrocket.type.InitOptions;
+import com.oliveryasuna.vaadin.logrocket.type.TrackEventProperties;
 import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.page.PendingJavaScriptResult;
