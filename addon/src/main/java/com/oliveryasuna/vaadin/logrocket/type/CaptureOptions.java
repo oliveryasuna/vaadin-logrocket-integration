@@ -18,18 +18,21 @@
 
 package com.oliveryasuna.vaadin.logrocket.type;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
+import org.unbrokendome.jackson.beanvalidation.JsonValidated;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
 @JsonSerialize(using = CaptureOptionsSerializer.class)
+@JsonValidated
 public class CaptureOptions implements Serializable {
 
   // Constructors
@@ -43,9 +46,11 @@ public class CaptureOptions implements Serializable {
   //--------------------------------------------------
 
   @JsonProperty("tags")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Object> tags;
 
   @JsonProperty("extra")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Object> extra;
 
   // Getters/setters

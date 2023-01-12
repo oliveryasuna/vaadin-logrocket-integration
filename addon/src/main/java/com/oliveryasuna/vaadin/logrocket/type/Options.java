@@ -20,9 +20,15 @@ package com.oliveryasuna.vaadin.logrocket.type;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
 import org.unbrokendome.jackson.beanvalidation.JsonValidated;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -220,6 +226,7 @@ public class Options implements Serializable {
   // Nested
   //--------------------------------------------------
 
+  @JsonSerialize(using = OptionsConsoleSerializer.class)
   @JsonValidated
   public static class Console implements Serializable {
 
@@ -442,6 +449,117 @@ public class Options implements Serializable {
       this.privateAttributeBlocklist = privateAttributeBlocklist;
     }
 
+  }
+
+}
+
+// Private classes
+//--------------------------------------------------
+
+final class OptionsConsoleSerializer extends StdSerializer<Options.Console> {
+
+  // Constructors
+  //--------------------------------------------------
+
+  public OptionsConsoleSerializer() {
+    super(Options.Console.class);
+  }
+
+  // Methods
+  //--------------------------------------------------
+
+  @Override
+  public void serialize(final Options.Console value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
+    gen.writeStartObject();
+
+    final Object isEnabled = value.getIsEnabled();
+
+    if(isEnabled != null) {
+      if(isEnabled instanceof Boolean) {
+        gen.writeBooleanField("isEnabled", (Boolean)isEnabled);
+      } else if(isEnabled instanceof Options.Console.IsEnabled) {
+        gen.writeObjectField("isEnabled", isEnabled);
+      } else {
+        throw new SerializationException("Unsupported type: " + isEnabled.getClass());
+      }
+    }
+
+    final Boolean shouldAggregateConsoleErrors = value.getShouldAggregateConsoleErrors();
+
+    if(shouldAggregateConsoleErrors != null) {
+      gen.writeBooleanField("shouldAggregateConsoleErrors", shouldAggregateConsoleErrors);
+    }
+
+    gen.writeEndObject();
+  }
+
+}
+
+final class OptionsDomSerializer extends StdSerializer<Options.Dom> {
+
+  // Constructors
+  //--------------------------------------------------
+
+  public OptionsDomSerializer() {
+    super(Options.Dom.class);
+  }
+
+  // Methods
+  //--------------------------------------------------
+
+  @Override
+  public void serialize(final Options.Dom value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
+    gen.writeStartObject();
+
+    final Boolean isEnabled = value.getEnabled();
+
+    if(isEnabled != null) {
+      gen.writeBooleanField("isEnabled", isEnabled);
+    }
+
+    final String baseHref = value.getBaseHref();
+
+    if(baseHref != null) {
+      gen.writeStringField("baseHref", baseHref);
+    }
+
+    final Object textSanitizer = value.getTextSanitizer();
+
+    if(textSanitizer != null) {
+      if(textSanitizer instanceof Boolean) {
+        gen.writeBooleanField("textSanitizer", (Boolean)textSanitizer);
+      } else if(textSanitizer instanceof String) {
+        gen.writeStringField("textSanitizer", (String)textSanitizer);
+      } else {
+        throw new SerializationException("Unsupported type: " + textSanitizer.getClass());
+      }
+    }
+
+    final Object inputSanitizer = value.getInputSanitizer();
+
+    if(inputSanitizer != null) {
+      if(inputSanitizer instanceof Boolean) {
+        gen.writeBooleanField("inputSanitizer", (Boolean)inputSanitizer);
+      } else if(inputSanitizer instanceof String) {
+        gen.writeStringField("inputSanitizer", (String)inputSanitizer);
+      } else {
+        throw new SerializationException("Unsupported type: " + inputSanitizer.getClass());
+      }
+    }
+
+    final List<String> privateAttributeBlocklist = value.getPrivateAttributeBlocklist();
+
+    if(privateAttributeBlocklist != null) {
+      gen.writeArrayFieldStart("privateAttributeBlocklist");
+
+      for(final String item : privateAttributeBlocklist) {
+        gen.writeString(item);
+      }
+
+      gen.writeEndArray();
+    }
+
+    gen.writeEndObject();
   }
 
 }
