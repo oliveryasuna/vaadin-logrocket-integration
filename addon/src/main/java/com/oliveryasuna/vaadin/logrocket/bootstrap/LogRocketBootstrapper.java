@@ -19,7 +19,6 @@
 package com.oliveryasuna.vaadin.logrocket.bootstrap;
 
 import com.oliveryasuna.vaadin.logrocket.LogRocket;
-import com.oliveryasuna.vaadin.logrocket.config.AddonConfiguration;
 import com.oliveryasuna.vaadin.logrocket.config.LogRocketConfiguration;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.UIInitEvent;
@@ -61,9 +60,7 @@ public class LogRocketBootstrapper implements IndexHtmlRequestListener, UIInitLi
   public void uiInit(final UIInitEvent event) {
     final UI ui = event.getUI();
 
-    if(AddonConfiguration.getInstance().isAutoInit()) {
-      LogRocket.init(ui, LogRocketConfiguration.getInstance().getAppId());
-    }
+    LogRocket.init(ui, LogRocketConfiguration.getInstance().getAppId());
   }
 
 }

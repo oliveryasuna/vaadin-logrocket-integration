@@ -35,7 +35,7 @@
 
   <groupId>org.vaadin.addons.oliveryasuna</groupId>
   <artifactId>vaadin-logrocket-integration</artifactId>
-  <version>3.0.0</version>
+  <version>3.0.1</version>
   <packaging>jar</packaging>
 
   <properties>
