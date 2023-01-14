@@ -41,11 +41,25 @@ public class AddonConfiguration implements Serializable {
   // Static methods
   //--------------------------------------------------
 
+  /**
+   * @deprecated Use {@link #getInstance(Consumer)} instead. Will be removed in 4.0.0.
+   */
+  @Deprecated(since = "3.1.0", forRemoval = true)
   public static AddonConfiguration getInstance() {
     INSTANCE_LOCK.lock();
 
     try {
       return INSTANCE;
+    } finally {
+      INSTANCE_LOCK.unlock();
+    }
+  }
+
+  public static void getInstance(final Consumer<AddonConfiguration> consumer) {
+    INSTANCE_LOCK.lock();
+
+    try {
+      consumer.accept(INSTANCE);
     } finally {
       INSTANCE_LOCK.unlock();
     }

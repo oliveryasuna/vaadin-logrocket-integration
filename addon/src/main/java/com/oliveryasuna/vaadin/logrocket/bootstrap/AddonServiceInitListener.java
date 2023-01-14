@@ -59,12 +59,14 @@ public class AddonServiceInitListener implements VaadinServiceInitListener {
   public final void serviceInit(final ServiceInitEvent event) {
     initConfig();
 
-    if(AddonConfiguration.getInstance().isAutoInit()) {
+    AddonConfiguration.getInstance(addonConfiguration -> {
+      if(!addonConfiguration.isAutoInit()) return;
+
       final LogRocketBootstrapper logRocketBootstrapper = new LogRocketBootstrapper();
 
       event.addIndexHtmlRequestListener(logRocketBootstrapper);
       event.getSource().addUIInitListener(logRocketBootstrapper);
-    }
+    });
   }
 
 }

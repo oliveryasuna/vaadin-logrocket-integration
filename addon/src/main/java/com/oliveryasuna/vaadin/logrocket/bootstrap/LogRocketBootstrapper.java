@@ -60,7 +60,11 @@ public class LogRocketBootstrapper implements IndexHtmlRequestListener, UIInitLi
   public void uiInit(final UIInitEvent event) {
     final UI ui = event.getUI();
 
-    LogRocket.init(ui, LogRocketConfiguration.getInstance().getAppId());
+    LogRocketConfiguration.getInstance(logRocketConfiguration -> {
+      final String appId = logRocketConfiguration.getAppId();
+
+      LogRocket.init(ui, appId);
+    });
   }
 
 }
