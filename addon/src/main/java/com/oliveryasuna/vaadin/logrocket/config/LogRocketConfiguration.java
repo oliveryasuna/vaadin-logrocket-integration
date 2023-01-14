@@ -21,6 +21,7 @@ package com.oliveryasuna.vaadin.logrocket.config;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 /**
  * LogRocket configuration.
@@ -32,8 +33,16 @@ public class LogRocketConfiguration implements Serializable {
   // Static methods
   //--------------------------------------------------
 
+  /**
+   * @deprecated Use {@link #getInstance(Consumer)} instead. Will be removed in 4.0.0.
+   */
+  @Deprecated(since = "3.1.0", forRemoval = true)
   public static LogRocketConfiguration getInstance() {
     return AddonConfiguration.getInstance().getLogRocket();
+  }
+
+  public static void getInstance(final Consumer<LogRocketConfiguration> consumer) {
+    AddonConfiguration.getInstance(addonConfiguration -> consumer.accept(addonConfiguration.getLogRocket()));
   }
 
   // Constructors
