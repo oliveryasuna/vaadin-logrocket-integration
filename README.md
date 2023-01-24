@@ -24,12 +24,19 @@ Set the `LOGROCKET_APP_ID` environment variable to your LogRocket app ID.
 Alternatively, you can set it directly in the configuration.
 Read more [here](#configuration).
 
-3. **Add the LogRocket script to your page.**
+3. **Add the LogRocket script to your page and initialize LogRocket.**
 
 One way to do so is by adding it to `index.html`:
 
 ```java
-public class LogRocketBoostrapper implements IndexHtmlRequestListener {
+public class LogRocketBootstrapper implements VaadinServiceInitListener, IndexHtmlRequestListener, UIInitListener {
+  @Override
+  public void serviceInit(final ServiceInitEvent event) {
+    event.addIndexHtmlRequestListener(this);
+    event.getSource().addUIInitListener(this);
+  }
+
+  @Override
   public void modifyIndexHtmlResponse(final IndexHtmlResponse response) {
     final Document document = response.getDocument();
 
@@ -38,6 +45,11 @@ public class LogRocketBoostrapper implements IndexHtmlRequestListener {
     scriptElement.attr("crossorigin", "anonymous");
 
     document.head().appendChild(scriptElement);
+  }
+
+  @Override
+  public void uiInit(final UIInitEvent event) {
+    LogRocketConfiguration.getInstance(logRocketConfiguration -> LogRocket.init(event.getUI(), ogRocketConfiguration.getAppId()));
   }
 }
 ```
@@ -60,10 +72,10 @@ public void onAuthenticate(final User user) {
 
 To override the default configuration, create a file name `vaadin-logrocket.properties` in `src/main/resources`.
 
-| Property          | Description                                     | Default               |
-|-------------------|-------------------------------------------------|-----------------------|
-| `autoInit`        | Automatically initialize LogRocket for new UIs. | `true`                |
-| `logrocket.appId` | LogRocket app ID.                               | `${LOGROCKET_APP_ID}` |
+| Property          | Description                                                                    | Default               |
+|-------------------|--------------------------------------------------------------------------------|-----------------------|
+| `autoInit`        | Automatically adds the LogRocket script and initializes LogRocket for new UIs. | `true`                |
+| `logrocket.appId` | LogRocket app ID.                                                              | `${LOGROCKET_APP_ID}` |
 
 Alternatively, you can implement your own configuration loader by implementing the interface `AddonConfigurationLoader` and loading it with SPI.
 
