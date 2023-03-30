@@ -74,7 +74,7 @@ To override the default configuration, create a file name `vaadin-logrocket.prop
 
 | Property          | Description                                                                    | Default               |
 |-------------------|--------------------------------------------------------------------------------|-----------------------|
-| `autoInit`        | Automatically adds the LogRocket script and initializes LogRocket for new UIs. | `true`                |
+| `autoInit`        | Automatically adds the LogRocket script and initializes LogRocket for new UIs. | `false`               |
 | `logrocket.appId` | LogRocket app ID.                                                              | `${LOGROCKET_APP_ID}` |
 
 Alternatively, you can implement your own configuration loader by implementing the interface `AddonConfigurationLoader` and loading it with SPI.
