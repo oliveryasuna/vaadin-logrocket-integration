@@ -179,7 +179,7 @@ public final class LogRocket {
   }
 
   public static CompletableFuture<String> version(final UI ui) {
-    return ui.getPage().executeJs("window.LogRocket.version")
+    return ui.getPage().executeJs("return window.LogRocket.version")
         .toCompletableFuture(String.class);
   }
 
@@ -188,7 +188,7 @@ public final class LogRocket {
   }
 
   public static CompletableFuture<String> sessionURL(final UI ui) {
-    return ui.getPage().executeJs("window.LogRocket.sessionURL")
+    return ui.getPage().executeJs("return window.LogRocket.sessionURL")
         .toCompletableFuture(String.class);
   }
 
