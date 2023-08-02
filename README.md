@@ -13,7 +13,7 @@ Integrates LogRocket with your Vaadin application.
 <dependency>
   <groupId>org.vaadin.addons.oliveryasuna</groupId>
   <artifactId>vaadin-logrocket-integration</artifactId>
-  <version>1.0.0</version>
+  <version>3.1.1</version>
 </dependency>
 ```
 
