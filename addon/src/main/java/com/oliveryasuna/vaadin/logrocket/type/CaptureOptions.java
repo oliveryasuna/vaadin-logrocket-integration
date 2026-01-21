@@ -25,14 +25,12 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
-import org.unbrokendome.jackson.beanvalidation.JsonValidated;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
 @JsonSerialize(using = CaptureOptionsSerializer.class)
-@JsonValidated
 public class CaptureOptions implements Serializable {
 
   // Constructors

@@ -25,13 +25,11 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
-import org.unbrokendome.jackson.beanvalidation.JsonValidated;
 
 import java.io.IOException;
 import java.util.Map;
 
 @JsonSerialize(using = TrackEventPropertiesSerializer.class)
-@JsonValidated
 public class TrackEventProperties {
 
   // Constructors

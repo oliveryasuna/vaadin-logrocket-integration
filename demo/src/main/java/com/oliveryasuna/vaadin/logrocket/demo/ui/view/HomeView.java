@@ -18,7 +18,12 @@
 
 package com.oliveryasuna.vaadin.logrocket.demo.ui.view;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.oliveryasuna.vaadin.logrocket.LogRocket;
+import com.oliveryasuna.vaadin.logrocket.util.SerializationUtils;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -29,8 +34,23 @@ public final class HomeView extends Composite<VerticalLayout> {
   @Override
   protected VerticalLayout initContent() {
     final VerticalLayout content = new VerticalLayout();
-
     content.add(new Span("HOME"));
+    content.add(new Button("LogRocket.identify", event -> {
+      final ObjectNode traits = SerializationUtils.JSON_MAPPER.createObjectNode();
+      traits.put("test", "test");
+
+      LogRocket.identify("Oliver", traits);
+    }));
+    content.add(new Button("LogRocket.captureMessage", event -> {
+      final ObjectNode options = SerializationUtils.JSON_MAPPER.createObjectNode();
+      final ObjectNode tags = SerializationUtils.JSON_MAPPER.createObjectNode();
+      tags.put("test", "test");
+      options.set("tags", tags);
+
+      LogRocket.captureMessage("Test message", options);
+    }));
+    content.add(new Button("Throw client-side error", event -> UI.getCurrent().getPage().executeJs("throw new Error('Test error')")));
+    content.add(new Button("Log client-side error", event -> UI.getCurrent().getPage().executeJs("console.error('Test error')")));
 
     return content;
   }

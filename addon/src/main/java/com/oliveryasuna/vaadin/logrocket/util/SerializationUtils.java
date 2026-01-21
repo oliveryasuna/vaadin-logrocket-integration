@@ -18,17 +18,11 @@
 
 package com.oliveryasuna.vaadin.logrocket.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 import com.oliveryasuna.commons.language.exception.UnsupportedInstantiationException;
-import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
-import elemental.json.Json;
-import elemental.json.JsonObject;
-import org.unbrokendome.jackson.beanvalidation.BeanValidationModule;
-
-import javax.validation.Validation;
 
 /**
  * Serialization utilities.
@@ -40,23 +34,15 @@ public final class SerializationUtils {
   // Static fields
   //--------------------------------------------------
 
-  public static final ObjectMapper JSON_MAPPER = new JsonMapper()
-      .registerModule(new BeanValidationModule(Validation.byDefaultProvider().configure().buildValidatorFactory()));
+  public static final ObjectMapper JSON_MAPPER = new JsonMapper();
 
   public static final JavaPropsMapper PROPERTIES_MAPPER = new JavaPropsMapper();
 
   // Static methods
   //--------------------------------------------------
 
-  public static JsonObject toElementalObject(final Object value) {
-    final String rawJson;
-    try {
-      rawJson = SerializationUtils.JSON_MAPPER.writeValueAsString(value);
-    } catch(final JsonProcessingException e) {
-      throw new SerializationException(e);
-    }
-
-    return Json.parse(rawJson);
+  public static ObjectNode toJacksonObject(final Object value) {
+    return SerializationUtils.JSON_MAPPER.valueToTree(value);
   }
 
   // Constructors

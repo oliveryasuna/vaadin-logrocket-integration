@@ -33,17 +33,17 @@
   </parent>
 
   <artifactId>vaadin-logrocket-integration-demo</artifactId>
-  <version>2.0.0</version>
+  <version>3.0.0</version>
   <packaging>jar</packaging>
 
   <modules/>
 
   <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
 
-    <vaadin.version>23.2.8</vaadin.version>
-    <spring.version>2.7.2</spring.version>
+    <vaadin.version>25.0.3</vaadin.version>
+    <spring.version>4.0.0</spring.version>
   </properties>
 
   <dependencyManagement>
@@ -76,7 +76,7 @@
     <dependency>
       <groupId>org.vaadin.addons.oliveryasuna</groupId>
       <artifactId>vaadin-logrocket-integration</artifactId>
-      <version>3.1.0</version>
+      <version>4.0.0</version>
     </dependency>
 
     <!--=========================
@@ -91,6 +91,12 @@
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-dev</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <!--=========================

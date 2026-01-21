@@ -25,9 +25,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.oliveryasuna.vaadin.logrocket.exception.SerializationException;
-import org.unbrokendome.jackson.beanvalidation.JsonValidated;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -37,7 +35,6 @@ import java.util.List;
  *
  * @author Oliver Yasuna
  */
-@JsonValidated
 public class Options implements Serializable {
 
   // Constructors
@@ -56,12 +53,10 @@ public class Options implements Serializable {
 
   @JsonProperty("console")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  @Valid
   private Console console;
 
   @JsonProperty("dom")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  @Valid
   private Dom dom;
 
   @JsonProperty("shouldCaptureIP")
@@ -227,7 +222,6 @@ public class Options implements Serializable {
   //--------------------------------------------------
 
   @JsonSerialize(using = OptionsConsoleSerializer.class)
-  @JsonValidated
   public static class Console implements Serializable {
 
     // Constructors
@@ -242,7 +236,6 @@ public class Options implements Serializable {
 
     @JsonProperty("isEnabled")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Valid
     private Object isEnabled;
 
     @JsonProperty("shouldAggregateConsoleErrors")
@@ -282,7 +275,6 @@ public class Options implements Serializable {
     // Nested
     //--------------------------------------------------
 
-    @JsonValidated
     public static class IsEnabled implements Serializable {
 
       // Constructors
@@ -362,7 +354,6 @@ public class Options implements Serializable {
 
   }
 
-  @JsonValidated
   public static class Dom implements Serializable {
 
     // Constructors
